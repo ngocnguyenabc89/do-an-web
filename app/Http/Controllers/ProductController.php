@@ -5,9 +5,10 @@ namespace App\Http\Controllers;
 use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
-use Illuminate\Support\MessageBag;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Session;
 
 class ProductController extends Controller
 {
@@ -49,7 +50,6 @@ class ProductController extends Controller
         $this->validate($request, [
             'product_name' => 'required',
             'product_price' => 'required',
-            'product_quantity' => 'required',
             'product_status' => 'required',
             'product_type' => 'required',
             'product_category' => 'required',
@@ -60,7 +60,6 @@ class ProductController extends Controller
         ], [
             'product_name' => 'Tên',
             'product_price' => 'Giá bán',
-            'product_quantity' => 'Số lượng',
             'product_status' => 'Tình trạng',
             'product_type' => 'Phân loại',
             'product_category' => 'Danh mục',
@@ -92,17 +91,18 @@ class ProductController extends Controller
                     'ten_san_pham' => $data['product_name'],
                     'mo_ta_san_pham' => $request->product_description,
                     'gia' => $request->product_price,
-                    'so_luong' => $request->product_quantity,
                     'tinh_trang' => $request->product_status,
                     'phan_loai' => $request->product_type,
                     'anh_san_pham' => $imageName,
                     'ma_danh_muc' => $request->product_category
                 ]);
         } catch (Exception $ex) {
-            dd($ex->getMessage());
+            Session::flash('fail', 'Không thể tạo sản phẩm');
+            return Redirect::back();
         }
 
-        return view('admin.product.list', ['result' => 'success']);
+        Session::flash('success', 'Tạo sản phẩm thành công');
+        return Redirect::to('admin/product/list' . $request->order_id);
     }
 
     /**
@@ -120,7 +120,8 @@ class ProductController extends Controller
                 return view('admin.product.list', ['result' => 'fail', 'message' => 'Không tồn tại']);
             }
         } catch (Exception $ex) {
-            dd($ex->getMessage());
+            Session::flash('fail', $ex->getMessage());
+            return Redirect::bacl();
         }
 
         return view('admin.product.info', ['product' => $product, 'categoryList' => $categoryList]);
@@ -136,7 +137,6 @@ class ProductController extends Controller
             'product_id' => 'required',
             'product_name' => 'required',
             'product_price' => 'required',
-            'product_quantity' => 'required',
             'product_status' => 'required',
             'product_type' => 'required',
             'product_category' => 'required',
@@ -147,7 +147,6 @@ class ProductController extends Controller
             'product_id' => 'Mã',
             'product_name' => 'Tên',
             'product_price' => 'Giá bán',
-            'product_quantity' => 'Số lượng',
             'product_status' => 'Tình trạng',
             'product_type' => 'Phân loại',
             'product_category' => 'Danh mục',
@@ -180,16 +179,17 @@ class ProductController extends Controller
                     'ten_san_pham' => $request->product_name,
                     'mo_ta_san_pham' => $request->product_description,
                     'gia' => $request->product_price,
-                    'so_luong' => $request->product_quantity,
                     'tinh_trang' => $request->product_status,
                     'phan_loai' => $request->product_type,
                     'ma_danh_muc' => $request->product_category
                 ]);
         } catch (Exception $ex) {
-            dd($ex->getMessage());
+            Session::flash('fail', $ex->getMessage());
+            return Redirect::back();
         }
 
-        return view('admin.product.list', ['result' => 'success']);
+        Session::flash('success', 'Cập nhật thành công');
+        return Redirect::back();
     }
 
     /**
@@ -199,6 +199,14 @@ class ProductController extends Controller
     public function delete($product_id)
     {
         try {
+            // Kiểm tra sản phẩm trong đơn hàng
+            $product_order = DB::table('chi_tiet_don_hang')->where('ma_san_pham', $product_id)->get();
+
+            if (count($product_order) > 0) {
+                Session::flash('fail', 'Không thể xóa sản phẩm đã tồn tại trong đơn hàng');
+                return Redirect::back();
+            }
+
             // Lấy đường dẫn ảnh trong db
             $product = DB::table('san_pham')->where('ma_san_pham', '=', $product_id)->first();
             $oldImagePath = $product->anh_san_pham;
@@ -209,9 +217,11 @@ class ProductController extends Controller
             // Xóa ảnh trong thư mục
             File::delete('storage/product/' . $oldImagePath);
         } catch (Exception $ex) {
-            dd($ex->getMessage());
+            Session::flash('fail', $ex->getMessage());
+            return Redirect::back();
         }
 
-        return view('admin.product.list', ['result' => 'success']);
+        Session::flash('success', 'Xóa thành công');
+        return Redirect::back();
     }
 }

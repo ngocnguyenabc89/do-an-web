@@ -106,31 +106,6 @@
             {{ Session::put('logout_message', null)}}
         })
         @endif
-
-        // Thông báo đăng nhập
-        @if(isset($result))
-        @if($result == "success")
-        Swal.fire({
-            icon: 'success',
-            title: '{{ $title }}',
-            text: '{{ $message }}',
-            showConfirmButton: false,
-            timer: 1500
-        }).then((result) => {
-
-            @if ($type=='login') 
-                location.assign("{{ url('admin/dashboard') }}")
-            @endif
-        })
-        @else
-        Swal.fire({
-            icon: 'error',
-            title: 'Đăng Nhập Thất Bại',
-            text: 'Vui lòng kiểm tra lại thông tin',
-        })
-        @endif
-        @endif
-
     </script>
 
 </body>

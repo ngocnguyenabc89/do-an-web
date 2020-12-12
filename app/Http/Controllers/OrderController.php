@@ -51,10 +51,19 @@ class OrderController extends Controller
                 ->where('tinh_trang', 1)
                 ->paginate(10);
         } catch (Exception $ex) {
-            dd($ex->getMessage());
+            Session::put('fail', $ex->getMessage());
+            return Redirect::back();
         }
 
-        return view('admin.order.info', ['order' => $order, 'orderDetailList' => $orderDetailList, 'productList' => $productList]);
+        if ($order->tinh_trang == 0) {
+            return view('admin.order.order-canceled', ['order' => $order, 'orderDetailList' => $orderDetailList, 'productList' => $productList]);
+        } elseif ($order->tinh_trang == 1) {
+            return view('admin.order.order-pending', ['order' => $order, 'orderDetailList' => $orderDetailList, 'productList' => $productList]);
+        } elseif ($order->tinh_trang == 2) {
+            return view('admin.order.order-confirmed', ['order' => $order, 'orderDetailList' => $orderDetailList, 'productList' => $productList]);
+        } elseif ($order->tinh_trang == 3) {
+            return view('admin.order.order-completed', ['order' => $order, 'orderDetailList' => $orderDetailList, 'productList' => $productList]);
+        }
     }
 
     /**
@@ -84,21 +93,31 @@ class OrderController extends Controller
                     // dd($productPrice, $productIdList[$i], $quantityUpdatedList[$i]);
                     DB::table('chi_tiet_don_hang')
                         ->where([['ma_don_hang', $orderId], ['ma_san_pham', $productIdList[$i]]])
-                        ->update(['so_luong_ban' => $quantityUpdatedList[$i], 'thanh_tien' => $productPrice * $quantityUpdatedList[$i]]);
+                        ->updateOrInsert(
+                            ['so_luong_ban' => $quantityUpdatedList[$i], 'thanh_tien' => $productPrice * $quantityUpdatedList[$i]],
+                            ['ma_don_hang' => $orderId, 'ma_san_pham' => $productIdList[$i], 'don_gia' => $productPrice]
+                        );
                 } else {
-
                     DB::table('chi_tiet_don_hang')->where([['ma_don_hang', $orderId], ['ma_san_pham', $productIdList[$i]]])->delete();
                 }
             }
 
-            // Cập nhật lại số tiền của đơn hàng
+            // Cập nhật lại số tiền của đơn hàng và lịch sử
             $amountTotal = DB::table('chi_tiet_don_hang')
                 ->where('ma_don_hang', 1)
                 ->sum('thanh_tien');
 
-            DB::table('don_hang')->where('ma_don_hang', $orderId)->update(['tong_tien' => $amountTotal]);
+            $order = DB::table('don_hang')->where('ma_don_hang', $orderId)->first();
+            $textHistory = $order->lich_su;
+            $textHistory .= date("H:m:s d/m/y") . " - " . "user #" . Session::get('user_id') . " : Cập nhật giỏ hàng\r\n";
+
+            DB::table('don_hang')->where('ma_don_hang', $orderId)->update([
+                'tong_tien' => $amountTotal,
+                'lich_su' => $textHistory,
+                'nhan_vien_cap_nhat' => Session::get('user_id')
+            ]);
         } catch (Exception $ex) {
-            Session::flash('fail', 'Không thể cập nhật thông tin');
+            Session::flash('fail', $ex->getMessage());
             return Redirect::back();
         }
         Session::flash('success', 'Đã cập nhật thông tin');
@@ -122,6 +141,9 @@ class OrderController extends Controller
         $customer_note = $request->customer_note;
 
         try {
+            $order = DB::table('don_hang')->where('ma_don_hang', $order_id)->first();
+            $textHistory = $order->lich_su;
+            $textHistory .= date("H:m:s d/m/y") . " - " . "user #" . Session::get('user_id') . " : Cập nhật thông tin khách hàng\r\n";
 
             DB::table('don_hang')
                 ->where('ma_don_hang', $order_id)
@@ -130,16 +152,80 @@ class OrderController extends Controller
                     'dien_thoai_khach_hang' => $customer_phone,
                     'dia_chi_giao_hang' => $customer_address,
                     'thoi_gian_giao_hang' => $customer_time_delivery,
-                    'ghi_chu_khach_hang' => $customer_note
+                    'ghi_chu_khach_hang' => $customer_note,
+                    'lich_su' => $textHistory,
+                    'nhan_vien_cap_nhat' => Session::get('user_id')
                 ]);
         } catch (Exception $ex) {
-            Session::flash('fail', 'Không thể cập nhật thông tin');
+            Session::flash('fail', $ex->getMessage());
             return Redirect::back();
         }
         Session::flash('success', 'Đã cập nhật thông tin');
         return Redirect::back();
     }
 
+
+    /**
+     * Confirm Order
+     * method: post
+     * đổi trang thái đơn hàng = 2 ,3
+     */
+    public function confirmOrder(Request $request, $order_status)
+    {
+        // dd($request->all());
+
+        try {
+            // Lấy lịch sử của đơn hàng
+            $order = DB::table('don_hang')->where('ma_don_hang', $request->order_id)->first();
+            $textHistory = $order->lich_su;
+
+            if ($order_status == 2) {
+                $text_status = ' ĐÃ XÁC NHẬN ĐƠN HÀNG';
+            } elseif ($order_status == 3) {
+                $text_status = ' ĐÃ GIAO HÀNG';
+            }
+
+            $textHistory .= date("H:m:s d/m/y") . " - " . "user #" . Session::get('user_id') . " : " . $text_status . "\r\n";
+
+            // Cập nhật trạng thái 2 và lịch sử
+            DB::table('don_hang')
+                ->where('ma_don_hang', $request->order_id)
+                ->update(['tinh_trang' => $order_status, 'lich_su' => $textHistory, 'nhan_vien_cap_nhat' => Session::get('user_id')]);
+        } catch (Exception $ex) {
+            Session::flash('fail', $ex->getMessage());
+            return Redirect::back();
+        }
+
+        return Redirect::to('admin/order/info/' . $request->order_id);
+    }
+
+    /**
+     * Cancel Order
+     * method: get
+     * đổi trạng thái đơn hàng = 0
+     */
+
+    public function cancelOrder($order_id)
+    {
+        try {
+            // Lấy lịch sử của đơn hàng
+            $order = DB::table('don_hang')->where('ma_don_hang', $order_id)->first();
+            $textHistory = $order->lich_su;
+
+            $textHistory .= date("H:m:s d/m/y") . " - " . "user #" . Session::get('user_id') . " : ĐÃ HỦY\r\n";
+
+            // Cập nhật trạng thái 2 và lịch sử
+            DB::table('don_hang')
+                ->where('ma_don_hang', $order_id)
+                ->update(['tinh_trang' => 0, 'lich_su' => $textHistory, 'nhan_vien_cap_nhat' => Session::get('user_id')]);
+        } catch (Exception $ex) {
+
+            Session::flash('fail', $ex->getMessage());
+            return Redirect::back();
+        }
+
+        return Redirect::to('admin/order/info/' . $order_id);
+    }
 
 
 

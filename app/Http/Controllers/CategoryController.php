@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\MessageBag;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Redirect;
 
 class CategoryController extends Controller
 {
@@ -64,10 +66,11 @@ class CategoryController extends Controller
             // Lưu db
             DB::table('danh_muc')->insert(['ten_danh_muc' => $data['category_name'], 'mo_ta' => $request->category_description]);
         } catch (Exception $ex) {
-            return view('admin.category.create', ['result' => "fail", "message" => $ex->getMessage()]);
+            Session::flash('fail', $ex->getMessage);
+            return Redirect::back();
         }
-
-        return view('admin.category.list', ['result' => 'success']);
+        Session::flash('success', 'Đã tạo danh mục');
+        return Redirect::to('admin/category/list');
     }
 
     /**
@@ -81,10 +84,12 @@ class CategoryController extends Controller
 
             // kiểm tra danh mục tồn tại ?
             if ($category == null) {
-                return view('admin.category.list', ['result' => 'fail', 'message' => 'Không tồn tại']);
+                Session::flash('fail', 'Dữ liệu không tồn tại');
+                return Redirect::back();
             }
         } catch (Exception $ex) {
-            dd($ex->getMessage());
+            Session::flash('fail', $ex->getMessage());
+            return Redirect::back();
         }
 
         return view('admin.category.info', ['category' => $category]);
@@ -115,10 +120,12 @@ class CategoryController extends Controller
                     'thoi_gian_cap_nhat' => date('Y-m-d H:i:s', time())
                 ]);
         } catch (Exception $ex) {
-            dd($ex->getMessage());
+            Session::flash('fail', $ex->getMessage());
+            return Redirect::back();
         }
 
-        return view('admin.category.list', ['result' => 'success']);
+        Session::flash('success', 'Đã cập nhật danh mục');
+        return Redirect::back();
     }
 
     /**
@@ -128,11 +135,23 @@ class CategoryController extends Controller
     public function delete($category_id)
     {
         try {
+            // Kiểm tra danh mục có chứa sản phẩm không
+            $category_product = DB::table('danh_muc')
+                ->join('san_pham', 'san_pham.ma_danh_muc', '=', 'danh_muc.ma_danh_muc')
+                ->where('danh_muc.ma_danh_muc', $category_id)
+                ->count('san_pham.ma_danh_muc');
+
+            if ($category_product > 0) {
+                Session::flash('fail', 'Không thể xóa danh mục đang chứa sản phẩm');
+                return Redirect::back();
+            }
             DB::table('danh_muc')->where('ma_danh_muc', '=', $category_id)->delete();
         } catch (Exception $ex) {
-            dd($ex->getMessage());
+            Session::flash('fail', $ex->getMessage());
+            return Redirect::back();
         }
 
-        return view('admin.category.list', ['result' => 'success']);
+        Session::flash('success', 'Đã xóa danh mục');
+        return Redirect::back();
     }
 }

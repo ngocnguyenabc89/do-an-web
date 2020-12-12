@@ -9,6 +9,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\MessageBag;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Session;
 
 class UserController extends Controller
 {
@@ -80,7 +82,8 @@ class UserController extends Controller
                 'anh_nguoi_dung' => $imageName
             ]);
         } catch (Exception $ex) {
-            return view('admin.user.create', ['result' => "fail", "message" => $ex->getMessage()]);
+            Session::flash('fail', $ex->getMessage());
+            return Redirect::back();
         }
 
         return view('admin.user.list', ['result' => 'success']);
@@ -100,7 +103,8 @@ class UserController extends Controller
             }
         } catch (Exception $ex) {
 
-            dd($ex->getMessage());
+            Session::flash('fail', $ex->getMessage());
+            return Redirect::back();
         }
 
         return view('admin.user.info', ['user' => $user]);
@@ -159,10 +163,12 @@ class UserController extends Controller
                     'thoi_gian_cap_nhat' => date('Y-m-d H:i:s', time())
                 ]);
         } catch (Exception $ex) {
-            dd($ex);
+            Session::flash('fail', $ex->getMessage());
+            return Redirect::back();
         }
 
-        return view('admin.user.list', ['result' => 'success']);
+        Session::flash('success', 'Đã cập nhật người dùng');
+        return Redirect::back();
     }
 
     /**
@@ -172,8 +178,22 @@ class UserController extends Controller
     public function delete($user_id)
     {
         try {
+            // Kiểm tra tự xóa chính mình
+            if (Session::get('user_id') == $user_id) {
+                Session::flash('fail', 'Không thể tự xóa chính mình');
+                return Redirect::back();
+            }
+
+            // Kiểm tra người dùng có thao tác trên đơn hàng nào hay không
+            $user_order = DB::table('don_hang')->where('nhan_vien_cap_nhat', $user_id)->count('nhan_vien_cap_nhat');
+
+            if ($user_order > 0) {
+                Session::flash('fail', 'Không thể xóa nhân viên đã từng thao tác trên đơn hàng');
+                return Redirect::back();
+            }
+
             // Lấy đường dẫn ảnh trong db
-            $user = DB::table('nguoi_dung')->where('ma_nguoi_dung', '=', $user_id)->first;
+            $user = DB::table('nguoi_dung')->where('ma_nguoi_dung', '=', $user_id)->first();
             $oldImagePath = $user->anh_nguoi_dung;
 
             // Xóa ảnh cũ
@@ -182,9 +202,11 @@ class UserController extends Controller
             // Xóa người dùng trong db
             DB::table('nguoi_dung')->where('ma_nguoi_dung', '=', $user_id)->delete();
         } catch (Exception $ex) {
-            return view('admin.user.list', ['result' => 'fail', 'message' => $ex->getMessage()]);
+            Session::flash('fail', $ex->getMessage());
+            return Redirect::back();
         }
 
-        return view('admin.user.list', ['result' => 'success']);
+        Session::flash('success', 'Đã xóa người dùng');
+        return Redirect::back();
     }
 }

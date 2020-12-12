@@ -39,17 +39,7 @@
                         <div class="col-sm-8">
                             <input type="number" name="product_price"
                                 class="form-control text-danger text-right font-weight-bold" id="product_price"
-                                placeholder="Nhập giá bán" min="1000" max="10000000000" step="1000" required />
-                        </div>
-                    </div>
-
-                    <!-- số lượng -->
-                    <div class="form-group row">
-                        <label for="product_quantity" class="col-md-3 col-form-label">Số lượng</label>
-                        <div class="col-sm-8">
-                            <input type="number" name="product_quantity" class="form-control text-right"
-                                id="product_quantity" placeholder="Nhập số lượng" min="0" max="100000000" step="1"
-                                required value="0" />
+                                placeholder="Nhập giá bán" min="1000" max="10000000000" required />
                         </div>
                     </div>
 
@@ -147,18 +137,6 @@
             icon: 'error',
             confirmButtonText: 'OK'
         })
-        @endif
-
-        // Kiểm tra biến result
-        @if(isset($result))
-        @if($result == "fail")
-        Swal.fire({
-            title: 'Thất Bại',
-            text: "{{ $message }}",
-            icon: 'error',
-            confirmButtonText: 'OK'
-        })
-        @endif
         @endif
 
         // Hiển thị ảnh upload

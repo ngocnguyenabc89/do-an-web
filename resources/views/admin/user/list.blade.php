@@ -67,8 +67,7 @@
                             <td>{{ date("H:m d/m/y", strtotime($user->thoi_gian_tao)) }}</td>
                             <td>{{ date("H:m d/m/y", strtotime($user->thoi_gian_cap_nhat))  }}</td>
                             <td>
-                                <a href="{{ url("admin/user/info/$user->ma_nguoi_dung") }}"
-                                    class="btn btn-info btn-circle btn-sm">
+                                <a href="{{ url("admin/user/info/$user->ma_nguoi_dung") }}" class="btn btn-info btn-sm">
                                     <i class="fas fa-info-circle"></i>
                                 </a>
                                 <a href="{{ url("admin/user/delete/$user->ma_nguoi_dung") }}"
@@ -116,25 +115,6 @@
         })
         return false
     }
-    // Kiểm tra biến result từ server gửi về để thông báo kết quả
-    @if(isset($result))
-    @if($result == "success")
-    Swal.fire({
-        icon: 'success',
-        title: 'Thành Công',
-        showConfirmButton: false,
-        timer: 1200
-    }).then((result) => {
-        location.assign("{{ url('admin/user/list') }}")
-    })
-    @else
 
-    Swal.fire({
-        icon: 'error',
-        title: 'Oops...',
-        text: 'Không Thành Công!',
-    })
-    @endif
-    @endif
 </script>
 @endsection

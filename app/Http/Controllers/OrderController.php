@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\MessageBag;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Session;
 
 class OrderController extends Controller
 {
@@ -18,24 +20,147 @@ class OrderController extends Controller
      */
     public function viewList()
     {
-        $orderList = DB::table('don_hang')->paginate(10);
+        $orderList = DB::table('don_hang')->paginate(20);
 
         return view('admin.order.list', ['orderList' => $orderList]);
     }
 
     /**
-     * view Tạo
+     * Info
      * method: get
      */
-    public function viewCreate()
+    public function viewInfo($order_id)
     {
         try {
-            $categoryList = DB::table('danh_muc')->get();
+
+            // Lấy đơn hàng. kiểm tra tồn tại ?   
+            $order = DB::table('don_hang')->where('ma_don_hang', '=', $order_id)->first();
+            if ($order == null) {
+                return view('admin.order.list', ['result' => 'fail', 'message' => 'Không tồn tại']);
+            }
+
+            // Lấy chi tiết đơn hàng
+            $orderDetailList = DB::table('chi_tiet_don_hang')
+                ->join('san_pham', 'san_pham.ma_san_pham', '=', 'chi_tiet_don_hang.ma_san_pham')
+                ->where('ma_don_hang', '=', $order_id)
+                ->get();
+
+            // Lấy danh sách sản phẩm
+            $productList = DB::table('san_pham')
+                ->join('danh_muc', 'danh_muc.ma_danh_muc', '=', 'san_pham.ma_danh_muc')
+                ->where('tinh_trang', 1)
+                ->paginate(10);
         } catch (Exception $ex) {
-            dd($ex);
+            dd($ex->getMessage());
         }
-        return view('admin.order.create', ['categoryList' => $categoryList]);
+
+        return view('admin.order.info', ['order' => $order, 'orderDetailList' => $orderDetailList, 'productList' => $productList]);
     }
+
+    /**
+     * Update Quantity
+     * method: post
+     */
+    public function updateQuantity(Request $request)
+    {
+        // dd($request->all());
+
+        // Lấy thông tin từ form
+        $orderId = $request->order_id;
+        $productIdList = $request->product_id_list;
+        $quantityUpdatedList = $request->quantity_updated_list;
+
+        try {
+
+            // Update thông tin trong db. Sản phẩm nào có số lượng bán = 0 thì xóa khỏi bảng chi tiết đơn hàng
+            $size = count($productIdList);
+            for ($i = 0; $i < $size; $i++) {
+
+                // Nếu số lượng > 0 thì cập nhật
+                if ($quantityUpdatedList[$i] > 0) {
+
+                    $product = DB::table('san_pham')->where('ma_san_pham', $productIdList[$i])->first();
+                    $productPrice = $product->gia;
+                    // dd($productPrice, $productIdList[$i], $quantityUpdatedList[$i]);
+                    DB::table('chi_tiet_don_hang')
+                        ->where([['ma_don_hang', $orderId], ['ma_san_pham', $productIdList[$i]]])
+                        ->update(['so_luong_ban' => $quantityUpdatedList[$i], 'thanh_tien' => $productPrice * $quantityUpdatedList[$i]]);
+                } else {
+
+                    DB::table('chi_tiet_don_hang')->where([['ma_don_hang', $orderId], ['ma_san_pham', $productIdList[$i]]])->delete();
+                }
+            }
+
+            // Cập nhật lại số tiền của đơn hàng
+            $amountTotal = DB::table('chi_tiet_don_hang')
+                ->where('ma_don_hang', 1)
+                ->sum('thanh_tien');
+
+            DB::table('don_hang')->where('ma_don_hang', $orderId)->update(['tong_tien' => $amountTotal]);
+        } catch (Exception $ex) {
+            Session::flash('fail', 'Không thể cập nhật thông tin');
+            return Redirect::back();
+        }
+        Session::flash('success', 'Đã cập nhật thông tin');
+        return Redirect::back();
+    }
+
+
+    /**
+     * Update Customer
+     * method: POST
+     */
+    public function updateCustomer(Request $request)
+    {
+        // dd($request->all());
+        // dd(explode("T", $request->customer_time_delivery)[0]);
+        $order_id = $request->order_id;
+        $customer_time_delivery = explode("T", $request->customer_time_delivery)[0] . " " . explode("T", $request->customer_time_delivery)[1];
+        $customer_name = $request->customer_name;
+        $customer_phone = $request->customer_phone;
+        $customer_address = $request->customer_address;
+        $customer_note = $request->customer_note;
+
+        try {
+
+            DB::table('don_hang')
+                ->where('ma_don_hang', $order_id)
+                ->update([
+                    'ten_khach_hang' => $customer_name,
+                    'dien_thoai_khach_hang' => $customer_phone,
+                    'dia_chi_giao_hang' => $customer_address,
+                    'thoi_gian_giao_hang' => $customer_time_delivery,
+                    'ghi_chu_khach_hang' => $customer_note
+                ]);
+        } catch (Exception $ex) {
+            Session::flash('fail', 'Không thể cập nhật thông tin');
+            return Redirect::back();
+        }
+        Session::flash('success', 'Đã cập nhật thông tin');
+        return Redirect::back();
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     /**
      * Create
@@ -101,32 +226,6 @@ class OrderController extends Controller
         }
 
         return view('admin.order.list', ['result' => 'success']);
-    }
-
-    /**
-     * Info
-     * method: get
-     */
-    public function viewInfo($order_id)
-    {
-        try {
-
-            // Lấy đơn hàng. kiểm tra tồn tại ?   
-            $order = DB::table('don_hang')->where('ma_don_hang', '=', $order_id)->first();
-            if ($order == null) {
-                return view('admin.order.list', ['result' => 'fail', 'message' => 'Không tồn tại']);
-            }
-
-            // Lấy chi tiết đơn hàng
-            $orderDetailList = DB::table('chi_tiet_don_hang')
-                ->join('san_pham', 'san_pham.ma_san_pham', '=', 'chi_tiet_don_hang.ma_san_pham')
-                ->where('ma_don_hang', '=', $order_id)
-                ->get();
-        } catch (Exception $ex) {
-            dd($ex->getMessage());
-        }
-
-        return view('admin.order.info', ['order' => $order, 'orderDetailList' => $orderDetailList]);
     }
 
     /**

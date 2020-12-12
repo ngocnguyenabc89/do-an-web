@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -24,10 +26,6 @@
 Route::get('/', function () {
     return view('welcome');
 });
-
-
-
-
 
 
 /*
@@ -93,11 +91,13 @@ Route::group(['prefix' => 'admin'], function () {
         Route::get('delete/{product_id}', 'ProductController@delete'); // URL = localhost:8000/admin/product/delete/{product_id}
     });
 
-    // Product group
+    // Order group
     Route::group(['prefix' => 'order'], function () {
         Route::get('list', 'OrderController@viewList'); // URL = localhost:8000/admin/order/list
         Route::get('create', 'OrderController@viewCreate'); // URL = localhost:8000/admin/order/create
         Route::get('info/{order_id}', 'OrderController@viewInfo'); // URL = localhost:8000/admin/order/create
+        Route::post('info/update-quantity', 'OrderController@updateQuantity'); // URL = localhost:8000/admin/order/info/update-quantity
+        Route::post('info/update-customer', 'OrderController@updateCustomer'); // URL = localhost:8000/admin/order/info/update-quantity
 
         Route::post('create', 'OrderController@create'); // URL = localhost:8000/admin/order/create
         Route::post('edit', 'OrderController@edit'); // URL = localhost:8000/admin/order/edit/{product_id}

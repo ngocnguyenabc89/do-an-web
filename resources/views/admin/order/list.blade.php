@@ -21,7 +21,7 @@
                 <table class="table table-striped table-hover">
                     <thead>
                         <tr>
-                            <th>Ngày Tạo</th>
+                            <th>Ngày Đặt Hàng</th>
                             <th>Đơn Hàng</th>
                             <th>Tình Trạng</th>
                             <th>Địa Chỉ</th>
@@ -35,11 +35,11 @@
                         @if ( isset($orderList) )
                         @foreach($orderList as $order)
                         <tr>
-                            <td>{{ date("H:m d/m/y", strtotime($order->thoi_gian_tao)) }}</td>
-                            <td>{{ $order->ma_don_hang }}</td>
+                            <td class="font-weight-bold">{{ date("H:m d/m/y", strtotime($order->thoi_gian_tao)) }}</td>
+                            <td class="text-center">{{ $order->ma_don_hang }}</td>
                             <td>
                                 @if ( $order->tinh_trang == 0)
-                                <span class="text-white bg-danger p-1">Đã Hủy</span>
+                                <span class="text-white bg-secondary p-1">Đã Hủy</span>
                                 @elseif ( $order->tinh_trang == 1)
                                 <span class="text-white bg-warning p-1">Chờ Xác Nhận</span>
                                 @elseif ( $order->tinh_trang == 2)
@@ -49,10 +49,13 @@
                                 @endif
                             </td>
                             <td>{{ $order->dia_chi_giao_hang }}</td>
-                            <td>{{ date("H:m d/m/y", strtotime($order->thoi_gian_giao_hang)) }}</td>
+                            <td class="text-primary font-weight-bold">
+                                {{ date("H:m d/m/y", strtotime($order->thoi_gian_giao_hang)) }}
+                            </td>
                             <td>{{ $order->ten_khach_hang }}</td>
-                            <td>{{ $order->tong_tien }}</td>
-                            <td>
+                            <td class="text-right text-danger font-weight-bold">
+                                {{ number_format( $order->tong_tien, 0, '', ',') }}</td>
+                            <td class="text-center">
                                 <a href="{{ url("admin/order/info/$order->ma_don_hang") }}" class="btn btn-info btn-sm">
                                     <i class="fas fa-info-circle"></i>
                                 </a>

@@ -39,10 +39,9 @@
             </div>
         </div>
     </li>
-    @endif
-
     <!-- Divider -->
     <hr class="sidebar-divider d-none d-md-block">
+    @endif
 
     <!-- CATEGORY- Pages Collapse Menu -->
     <li class="nav-item @if (request()->is('admin/category/*')) active @endif">
@@ -62,7 +61,6 @@
             </div>
         </div>
     </li>
-
 
     <!-- Divider -->
     <hr class="sidebar-divider d-none d-md-block">

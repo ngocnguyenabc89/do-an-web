@@ -53,7 +53,8 @@
                                 <image src="{{ asset("storage/product/$product->anh_san_pham") }}" alt="img" width="80">
                             </td>
                             <td>{{ $product->ten_san_pham }}</td>
-                            <td>{{ $product->gia }}</td>
+                            <td class="text-right font-weight-bold text-primary">
+                                {{ number_format( $product->gia, 0, '', ',') }}</td>
                             <td>
                                 @if ( $product->tinh_trang == 0)
                                 <span class="text-white bg-secondary p-1">tạm ngưng</span>

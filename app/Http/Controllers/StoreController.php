@@ -31,7 +31,7 @@ class StoreController extends Controller
 
     public function home()
     {
-        
+
         return view('store.home');
     }
 
@@ -85,12 +85,26 @@ class StoreController extends Controller
         return view('store.shop.category', ['category' => $category, 'product_list_of_category' => $product_list_of_category]);
     }
 
+    /**
+     * Product Info
+     * method: get
+     */
+    public function productInfo($product_id)
+    {
 
+        try {
+            $product = DB::table('san_pham')
+                ->join('danh_muc', 'danh_muc.ma_danh_muc', 'san_pham.ma_danh_muc')
+                ->where('ma_san_pham', $product_id)
+                ->first();
 
+            if ($product == null) {
+                return Redirect::back();
+            }
+        } catch (Exception $ex) {
+            return Redirect::back();
+        }
 
-
-
-
-
-
+        return view('store.shop.product', ['product' => $product]);
+    }
 }

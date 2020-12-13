@@ -41,11 +41,11 @@
                         </div>
                         <div class="product__item__text">
                             <h6><a
-                                    href="{{ url("shop/product-detail/$product->ma_san_pham") }}">{{ $product->ten_san_pham }}</a>
+                                    href="{{ url("shop/product/$product->ma_san_pham") }}">{{ $product->ten_san_pham }}</a>
                             </h6>
                             <div class="product__item__price">{{ number_format($product->gia, 0, '', ',') }}</div>
                             <div class="cart_add">
-                                <a href="{{ url("shop/add-cart/$product->ma_san_pham") }}">Thêm Giỏ Hàng</a>
+                                <a href="{{ url("checkout/add-cart/$product->ma_san_pham") }}">Thêm Giỏ Hàng</a>
                             </div>
                         </div>
                     </div>

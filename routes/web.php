@@ -20,8 +20,17 @@ Route::group(['prefix' => 'shop'], function () {
 
     Route::get('/', 'StoreController@shop');
     Route::get('category/{category_id}', 'StoreController@productListOfCategory');
+    Route::get('product/{product_id}', 'StoreController@productInfo');
+});
 
+// Checkout
+Route::group(['prefix' => 'checkout'], function () {
 
+    Route::get('add-cart/{product_id}', 'CartController@addCart');
+    Route::get('cart', 'CartController@cart');
+    Route::get('order', 'CartController@order');
+    Route::post('add-cart', 'CartController@addCartWithQuantity');
+    Route::post('update-cart', 'CartController@updateCart');
 });
 
 
@@ -44,8 +53,7 @@ Route::group(['prefix' => 'store'], function () {
     });
 
     // Customer Group
-    Route::group(['prefix' => 'customer'], function() {
-
+    Route::group(['prefix' => 'customer'], function () {
     });
 });
 

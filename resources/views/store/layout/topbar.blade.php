@@ -1,3 +1,18 @@
+<!-- Tính tổng tiền và tổng sản phẩm cho giỏ hàng -->
+@if (Session::has('cart'))
+<?php
+$total = 0; 
+$quantity = 0;
+?>
+@foreach (Session::get('cart') as $product)
+<?php
+            $total += $product->gia * $product->qty;
+            $quantity += $product->qty;
+  ?>
+@endforeach
+@endif
+
+
 <!-- Header Section Begin -->
 <header class="header">
     <div class="header__top">
@@ -14,9 +29,16 @@
                                         src="{{ asset('store-assets/img/icon/search.png') }}" alt=""></a>
                             </div>
                             <div class="header__top__right__cart">
-                                <a href="{{ url('store/customer/shopping-cart') }}"><img
-                                        src="{{ asset('store-assets/img/icon/cart.png') }}" alt=""> <span>0</span></a>
-                                <div class="cart__price">Giỏ Hàng: <span>0</span></div>
+                                <a href="{{ url('store/customer/shopping-cart') }}" class="btn btn-link btn-">
+                                    <i class="fa fa-shopping-cart fa-3x" aria-hidden="true"></i>
+                                    <span>{{$quantity}}</span>
+                                </a>
+                                <div class="cart__price">
+                                    Giỏ Hàng:
+                                    <span>
+                                        {{ $total }}
+                                    </span>
+                                </div>
                             </div>
                         </div>
                     </div>

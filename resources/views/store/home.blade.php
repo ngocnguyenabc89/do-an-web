@@ -8,7 +8,8 @@
     <!-- Hero Section Begin -->
     <section class="hero">
         <div class="hero__slider owl-carousel">
-            <div class="hero__item set-bg" data-setbg="{{ asset('store-assets/img/hero.jpg') }}">
+            <div class="hero__item set-bg" data-setbg="{{ asset("store-assets/img/hero.jpg") }}"
+                style="background-image: url({{ asset("store-assets/img/hero.jpg") }})">
                 <div class="container">
                     <div class="row d-flex justify-content-center">
                         <div class="col-lg-8">
@@ -19,7 +20,8 @@
                     </div>
                 </div>
             </div>
-            <div class="hero__item set-bg" data-setbg="{{ asset('store-assets/img/hero.jpg') }}">
+            <div class="hero__item set-bg" data-setbg="{{ asset('store-assets/img/hero.jpg') }}"
+                style="background-image: url({{ asset("store-assets/img/hero.jpg") }})">
                 <div class="container">
                     <div class="row d-flex justify-content-center">
                         <div class="col-lg-8">
@@ -44,7 +46,8 @@
                             <span>Về 3Gs House</span>
                             <h2>Vị ngọt cho một ngày mới!</h2>
                         </div>
-                        <p>Ngôi nhà nhỏ "3Gs House" được thành lập từ những cô gái có niềm đam mê to lớn với những chiếc bánh ngọt ngào. Hãy đến với cửa hàng để bắt đầu một ngày đẹp của bạn.</p>
+                        <p>Ngôi nhà nhỏ "3Gs House" được thành lập từ những cô gái có niềm đam mê to lớn với những chiếc
+                            bánh ngọt ngào. Hãy đến với cửa hàng để bắt đầu một ngày đẹp của bạn.</p>
                     </div>
                 </div>
                 <div class="col-lg-6 col-md-6">
@@ -60,7 +63,7 @@
     <section class="product spad">
         <div class="container">
             <div class="row">
-            <!-- 1 sản phẩm -->
+                <!-- 1 sản phẩm -->
                 <div class="col-lg-3 col-md-6 col-sm-6">
                     <div class="product__item">
                         <div class="product__item__pic set-bg" data-setbg="{{ asset('store-assets/img/') }}">

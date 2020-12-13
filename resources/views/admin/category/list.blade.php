@@ -52,7 +52,7 @@
                             <td>{{ date("H:m d/m/y", strtotime($category->thoi_gian_cap_nhat)) }}</td>
                             <td>
                                 <a href="{{ url("admin/category/info/$category->ma_danh_muc") }}"
-                                    class="btn btn-info btn-circle btn-sm">
+                                    class="btn btn-info btn-sm">
                                     <i class="fas fa-info-circle"></i>
                                 </a>
                                 <a href="{{ url("admin/category/delete/$category->ma_danh_muc") }}"
@@ -104,25 +104,5 @@
         return false
     }
 
-    // Kiểm tra biến result từ server gửi về để thông báo kết quả
-    @if(isset($result))
-    @if($result == "success")
-    Swal.fire({
-        icon: 'success',
-        title: 'Thành Công',
-        showConfirmButton: false,
-        timer: 1200
-    }).then((result) => {
-        location.assign(url_base)
-    })
-    @else
-    Swal.fire({
-        icon: 'error',
-        title: 'Oops...',
-        text: 'Không Thành Công!',
-        footer: '<a href>Why do I have this issue?</a>',
-    })
-    @endif
-    @endif
 </script>
 @endsection

@@ -1,18 +1,7 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use Illuminate\Support\Facades\Route;
-
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
-
 
 /*
 |--------------------------------------------------------------------------
@@ -23,11 +12,19 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+// Trang chủ
+Route::get('/', 'StoreController@home');
+
+// Cửa hàng
+Route::group(['prefix' => 'shop'], function () {
+
+    Route::get('/', 'StoreController@shop');
+    Route::get('category/{category_id}', 'StoreController@productListOfCategory');
+
+
 });
 
-//Route::get('store', 'AdminController@index'); // URL = localhost:8000/admin
+
 
 Route::group(['prefix' => 'store'], function () {
 
@@ -79,10 +76,12 @@ Route::group(['prefix' => 'admin'], function () {
     // Logout
     Route::get('logout', 'AdminController@logout');
 
+    // Personal Info
+    Route::get('personal-info/{user_id}', 'AdminController@personalInfo');
+    Route::post('edit-personal-info', 'AdminController@editPersonalInfo');
+
     // Dashboard
-    Route::get('dashboard', function () {
-        return view('admin.dashboard.dashboard');
-    });
+    Route::get('dashboard', 'AdminController@dashboard');
 
     // User group - Middelware [check.user.permission] chỉ cho phép người Quản trị được vào route này. Nhân viên không đc truy cập
     Route::group(['prefix' => 'user'], function () {
@@ -124,6 +123,8 @@ Route::group(['prefix' => 'admin'], function () {
         Route::get('info/{order_id}', 'OrderController@viewInfo'); // URL = localhost:8000/admin/order/create
         Route::post('info/update-quantity', 'OrderController@updateQuantity'); // URL = localhost:8000/admin/order/info/update-quantity
         Route::post('info/update-customer', 'OrderController@updateCustomer'); // URL = localhost:8000/admin/order/info/update-quantity
+        Route::post('info/confirm/{order_status}', 'OrderController@confirmOrder'); // URL = localhost:8000/admin/order/info/confirm/{0,2,3}
+        Route::get('info/cancel/{order_id}', 'OrderController@cancelOrder'); // URL = localhost:8000/admin/order/info/cancel/{order_id}
 
         Route::post('create', 'OrderController@create'); // URL = localhost:8000/admin/order/create
         Route::post('edit', 'OrderController@edit'); // URL = localhost:8000/admin/order/edit/{product_id}

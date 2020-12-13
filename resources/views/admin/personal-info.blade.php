@@ -7,14 +7,14 @@
 <div class="mb-3">
 </div>
 <div class="d-sm-flex align-items-center justify-content-between mb-4">
-    <h1 class="h3 mb-0 text-primary font-weight-bold">Thông Tin Người Dùng</h1>
-    <h5><a class="text-primary mb-5" href="{{url('admin/user/list')}}">Người dùng</a> / Thông tin người dùng</h5>
+    <h1 class="h3 mb-0 text-primary font-weight-bold">Thông Tin Cá Nhân</h1>
 </div>
 <!-- Page Body -->
 <div class="card">
     <div class="card-body">
         <!-- Content Row -->
-        <form class="conatainer" action="{{ asset('admin/user/edit') }}" method="POST" enctype="multipart/form-data">
+        <form class="conatainer" action="{{ asset('admin/edit-personal-info') }}" method="POST"
+            enctype="multipart/form-data">
             @csrf
             <div class="row d-flex justify-content-between">
 
@@ -47,20 +47,6 @@
                             <input type="number" name="user_phone" class="form-control" id="user_phone"
                                 placeholder="Nhập điện thoại" pattern=".{10,15}" required
                                 value="{{ $user->dien_thoai }}" />
-                        </div>
-                    </div>
-
-                    <!-- loại -->
-                    <div class="form-group row">
-                        <label for="user_permission" class="col-md-3 col-form-label">Quyền người dùng</label>
-                        <div class="col-sm-8">
-                            <select class="form-control" name="user_permission" id="user_permission">
-                                <option value="1" class="font-weight-bold" @if ($user->loai == 1) seleted @endif>
-                                    Nhân viên
-                                </option>
-                                <option value="2" class="font-weight-bold" @if ($user->loai == 2) seleted @endif>Quản
-                                    trị</option>
-                            </select>
                         </div>
                     </div>
 

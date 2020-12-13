@@ -60,6 +60,7 @@
     <section class="product spad">
         <div class="container">
             <div class="row">
+            <!-- 1 sản phẩm -->
                 <div class="col-lg-3 col-md-6 col-sm-6">
                     <div class="product__item">
                         <div class="product__item__pic set-bg" data-setbg="{{ asset('store-assets/img/') }}">

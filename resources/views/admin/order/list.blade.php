@@ -13,12 +13,6 @@
     <div class="card-body">
 
         <!-- Content Row -->
-        <div class="row mb-4">
-            <div class="col-md-2">
-                <a href="{{ url('admin/order/create') }}" class="btn btn-success">Tạo Mới</a>
-            </div>
-        </div>
-
         <h4>Danh Sách</h4>
         <!-- Content Row -->
         <div class="row">
@@ -27,12 +21,12 @@
                 <table class="table table-striped table-hover">
                     <thead>
                         <tr>
-                            <th>Ngày Tạo</th>
-                            <th>Đơn Hàng</th>
                             <th>Tình Trạng</th>
+                            <th>Ngày Đặt Hàng</th>
+                            <th>Đơn Hàng</th>
+                            <th>Khách Hàng</th>
                             <th>Địa Chỉ</th>
                             <th>Ngày Giao Hàng</th>
-                            <th>Khách Hàng</th>
                             <th>Tổng Tiền</th>
                             <th>Thao Tác</th>
                         </tr>
@@ -41,26 +35,28 @@
                         @if ( isset($orderList) )
                         @foreach($orderList as $order)
                         <tr>
-                            <td>{{ date("H:m d/m/y", strtotime($order->thoi_gian_tao)) }}</td>
-                            <td>{{ $order->ma_don_hang }}</td>
                             <td>
                                 @if ( $order->tinh_trang == 0)
-                                <span class="text-white bg-secondary p-1">Hủy</span>
+                                <span class="text-white bg-secondary p-1">hủy</span>
                                 @elseif ( $order->tinh_trang == 1)
-                                <span class="text-white bg-warning p-1">Chờ Xác Nhận</span>
+                                <span class="text-white bg-warning p-1">đang chờ</span>
                                 @elseif ( $order->tinh_trang == 2)
-                                <span class="text-white bg-primary p-1">Đang Xử Lý</span>
+                                <span class="text-white bg-primary p-1">xác nhận</span>
                                 @elseif ( $order->tinh_trang == 3)
-                                <span class="text-white bg-primary p-1">Hoàn Tất</span>
+                                <span class="text-white bg-success p-1">thành công</span>
                                 @endif
                             </td>
-                            <td>{{ $order->dia_chi_giao_hang }}</td>
-                            <td>{{ date("H:m d/m/y", strtotime($order->thoi_gian_giao_hang)) }}</td>
+                            <td class="font-weight-bold">{{ date("H:m d/m/y", strtotime($order->thoi_gian_tao)) }}</td>
+                            <td class="text-center">{{ $order->ma_don_hang }}</td>
                             <td>{{ $order->ten_khach_hang }}</td>
-                            <td>{{ $order->tong_tien }}</td>
-                            <td>
-                                <a href="{{ url("admin/order/info/$order->ma_don_hang") }}"
-                                    class="btn btn-info btn-circle btn-sm">
+                            <td>{{ $order->dia_chi_giao_hang }}</td>
+                            <td class="text-primary font-weight-bold">
+                                {{ date("H:m d/m/y", strtotime($order->thoi_gian_giao_hang)) }}
+                            </td>
+                            <td class="text-right text-danger font-weight-bold">
+                                {{ number_format( $order->tong_tien, 0, '', ',') }}</td>
+                            <td class="text-center">
+                                <a href="{{ url("admin/order/info/$order->ma_don_hang") }}" class="btn btn-info btn-sm">
                                     <i class="fas fa-info-circle"></i>
                                 </a>
                             </td>
@@ -100,25 +96,5 @@
         })
         return false
     }
-    // Kiểm tra biến result từ server gửi về để thông báo kết quả
-    @if(isset($result))
-    @if($result == "success")
-    Swal.fire({
-        icon: 'success',
-        title: 'Thành Công',
-        showConfirmButton: false,
-        timer: 1200
-    }).then((result) => {
-        location.assign("{{ url('admin/order/list') }}")
-    })
-    @else
-
-    Swal.fire({
-        icon: 'error',
-        title: 'Oops...',
-        text: 'Không Thành Công!',
-    })
-    @endif
-    @endif
 </script>
 @endsection

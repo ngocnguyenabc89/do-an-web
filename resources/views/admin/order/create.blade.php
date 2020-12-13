@@ -136,7 +136,9 @@
     </div>
     <!-- kết thúc main-container -->
     @endsection
+
     {{-- Javascript --}}
+
     @section('script')
     <script>
         // Kiểm tra biến errors từ server gửi về. Nếu có lỗi xuất popup thông báo
@@ -147,18 +149,6 @@
             icon: 'error',
             confirmButtonText: 'OK'
         })
-        @endif
-
-        // Kiểm tra biến result
-        @if(isset($result))
-        @if($result == "fail")
-        Swal.fire({
-            title: 'Thất Bại',
-            text: "{{ $message }}",
-            icon: 'error',
-            confirmButtonText: 'OK'
-        })
-        @endif
         @endif
 
         // Hiển thị ảnh upload

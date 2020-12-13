@@ -24,7 +24,9 @@
                     <div class="form-group row">
                         <label for="product_id" class="col-md-3 col-form-label">Mã</label>
                         <div class="col-sm-8">
-                            <input type="text" name="product_id" class="form-control font-weight-bold" id="product_name" placeholder="Nhập tên" pattern=".{5,40}" title="Tối thiểu 5 ký tự và tối đa 40 ký tự" required value="{{ $product->ma_san_pham }}" readonly />
+                            <input type="text" name="product_id" class="form-control font-weight-bold" id="product_name"
+                                placeholder="Nhập tên" pattern=".{5,40}" title="Tối thiểu 5 ký tự và tối đa 40 ký tự"
+                                required value="{{ $product->ma_san_pham }}" readonly />
                         </div>
                     </div>
 
@@ -32,7 +34,10 @@
                     <div class="form-group row">
                         <label for="product_name" class="col-md-3 col-form-label">Tên</label>
                         <div class="col-sm-8">
-                            <input type="text" name="product_name" class="form-control font-weight-bold" id="product_name" placeholder="Nhập tên" pattern=".{5,40}" title="Tối thiểu 5 ký tự và tối đa 40 ký tự" required value="{{ $product->ten_san_pham }}" />
+                            <input type="text" name="product_name" class="form-control font-weight-bold"
+                                id="product_name" placeholder="Nhập tên" pattern=".{5,40}"
+                                title="Tối thiểu 5 ký tự và tối đa 40 ký tự" required
+                                value="{{ $product->ten_san_pham }}" />
                         </div>
                     </div>
 
@@ -40,15 +45,10 @@
                     <div class="form-group row">
                         <label for="product_price" class="col-md-3 col-form-label">Giá bán</label>
                         <div class="col-sm-8">
-                            <input type="number" name="product_price" class="form-control text-danger text-right font-weight-bold" id="product_price" placeholder="Nhập giá bán" min="1000" max="10000000000" step="1000" required value="{{ $product->gia }}" />
-                        </div>
-                    </div>
-
-                    <!-- số lượng -->
-                    <div class="form-group row">
-                        <label for="product_quantity" class="col-md-3 col-form-label">Số lượng</label>
-                        <div class="col-sm-8">
-                            <input type="number" name="product_quantity" class="form-control text-right" id="product_quantity" placeholder="Nhập số lượng" min="0" max="100000000" step="1" required value="{{ $product->so_luong }}" />
+                            <input type="number" name="product_price"
+                                class="form-control text-danger text-right font-weight-bold" id="product_price"
+                                placeholder="Nhập giá bán" min="1000" max="10000000000" step="1000" required
+                                value="{{ $product->gia }}" />
                         </div>
                     </div>
 
@@ -57,8 +57,10 @@
                         <label for="product_status" class="col-md-3 col-form-label">Tình trạng</label>
                         <div class="col-sm-8">
                             <select class="form-control" name="product_status" id="product_status">
-                                <option value="1" class="font-weight-bold" @if($product->tinh_trang == 1) selected @endif>Mở bán</option>
-                                <option value="0" class="font-weight-bold" @if($product->tinh_trang == 0) selected @endif>Tạm ngưng</option>
+                                <option value="1" class="font-weight-bold" @if($product->tinh_trang == 1) selected
+                                    @endif>Mở bán</option>
+                                <option value="0" class="font-weight-bold" @if($product->tinh_trang == 0) selected
+                                    @endif>Tạm ngưng</option>
                             </select>
                         </div>
                     </div>
@@ -68,8 +70,10 @@
                         <label for="product_type" class="col-md-3 col-form-label">Phân loại</label>
                         <div class="col-sm-8">
                             <select class="form-control" name="product_type" id="product_type">
-                                <option class="font-weight-bold" value="0" @if($product->phan_loai == 0) selected @endif >Sản phẩm thường</option>
-                                <option class="font-weight-bold" value="1" @if($product->phan_loai == 1) selected @endif >Sản phẩm nổi bật</option>
+                                <option class="font-weight-bold" value="0" @if($product->phan_loai == 0) selected @endif
+                                    >Sản phẩm thường</option>
+                                <option class="font-weight-bold" value="1" @if($product->phan_loai == 1) selected @endif
+                                    >Sản phẩm nổi bật</option>
                             </select>
                         </div>
                     </div>
@@ -80,7 +84,9 @@
                         <div class="col-sm-8">
                             <select class="form-control" name="product_category" id="product_category">
                                 @foreach ($categoryList as $category)
-                                <option value="{{ $category->ma_danh_muc }}" class="font-weight-bold" @if($product->ma_danh_muc == $category->ma_danh_muc) selected @endif>{{ $category->ten_danh_muc }}</option>
+                                <option value="{{ $category->ma_danh_muc }}" class="font-weight-bold" @if($product->
+                                    ma_danh_muc == $category->ma_danh_muc) selected @endif>{{ $category->ten_danh_muc }}
+                                </option>
                                 @endforeach
                             </select>
                         </div>
@@ -90,8 +96,10 @@
                     <div class="form-group row">
                         <label for="product_image" class="col-md-3 col-form-label">Ảnh đại diện</label>
                         <div class="col-sm-8">
-                            <input type="file" name="product_image" class="form-control mb-3 p-1" accept="image/*" id="product_image">
-                            <img id="output" src="{{ asset("storage/product/$product->anh_san_pham")}}" width="300" style="border:2px solid #000; border-radius: 5px;" />
+                            <input type="file" name="product_image" class="form-control mb-3 p-1" accept="image/*"
+                                id="product_image">
+                            <img id="output" src="{{ asset("storage/product/$product->anh_san_pham")}}" width="300"
+                                style="border:2px solid #000; border-radius: 5px;" />
                         </div>
                     </div>
 
@@ -103,7 +111,8 @@
                     <!-- mô tả -->
                     <div class="form-group row">
                         <div class="col-md-12">
-                            <textarea class="form-control" name="product_description" id="product_description" rows="5">{{ str_replace( '&', '&amp;', $product->mo_ta_san_pham ) }}</textarea>
+                            <textarea class="form-control" name="product_description" id="product_description"
+                                rows="5">{{ str_replace( '&', '&amp;', $product->mo_ta_san_pham ) }}</textarea>
                         </div>
                     </div>
                 </div>
@@ -144,17 +153,6 @@
         })
         @endif
 
-        // Kiểm tra biến result
-        @if(isset($result))
-        @if($result == "fail")
-        Swal.fire({
-            title: 'Thất Bại',
-            text: "{{ $message }}",
-            icon: 'error',
-            confirmButtonText: 'OK'
-        })
-        @endif
-        @endif
 
         // Hiển thị ảnh upload
         let image_input_DOM = document.querySelector("#product_image");

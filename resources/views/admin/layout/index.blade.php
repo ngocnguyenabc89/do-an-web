@@ -100,6 +100,26 @@
 
 	<!-- Script tự viết -->
 	@yield('script')
+
+	<script>
+		// Kiểm tra kết quả xử lý
+				@if(Session::has('success'))
+        Swal.fire({
+            title: 'Thành Công',
+            text: "{{ Session::get('success') }}",
+            icon: 'success',
+            showConfirmButton: false,
+            timer: 1300
+        })
+        @elseif(Session::has('fail'))
+        Swal.fire({
+            title: 'Thất Bại',
+            text: "{{ Session::get('fail') }}",
+            icon: 'error',
+            showConfirmButton: true,
+        })
+        @endif
+	</script>
 </body>
 
 </html>

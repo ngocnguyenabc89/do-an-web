@@ -39,10 +39,9 @@
             </div>
         </div>
     </li>
-    @endif
-
     <!-- Divider -->
     <hr class="sidebar-divider d-none d-md-block">
+    @endif
 
     <!-- CATEGORY- Pages Collapse Menu -->
     <li class="nav-item @if (request()->is('admin/category/*')) active @endif">
@@ -62,7 +61,6 @@
             </div>
         </div>
     </li>
-
 
     <!-- Divider -->
     <hr class="sidebar-divider d-none d-md-block">
@@ -93,7 +91,7 @@
     <li class="nav-item @if (request()->is('admin/order/*')) active @endif">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseOrder" aria-expanded="true"
             aria-controls="collapseOrder">
-            <i class="fas fa-fw fa-boxes"></i>
+            <i class="fas fa-fw fa-shopping-cart"></i>
             <span>Đơn Đặt Hàng</span>
         </a>
         <div id="collapseOrder" class="collapse collapse @if (request()->is('admin/order/*')) show @endif"
@@ -102,8 +100,6 @@
                 <h6 class="collapse-header">Quản Lý Đơn Hàng</h6>
                 <a class="collapse-item @if ((request()->is('admin/order/*') || request()->is('admin/order/list')) && !request()->is('admin/order/create')) active @endif"
                     href="{{ url('admin/order/list') }}">Danh Sách</a>
-                <a class="collapse-item @if (request()->is('admin/order/create')) active @endif"
-                    href="{{ url('admin/order/create') }}">Tạo Mới</a>
             </div>
         </div>
     </li>

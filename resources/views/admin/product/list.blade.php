@@ -32,7 +32,6 @@
                             <th>Ảnh</th>
                             <th>Tên</th>
                             <th>Giá Bán</th>
-                            <th>Số Lượng</th>
                             <th>Tình Trạng</th>
                             <th>Phân Loại</th>
                             <th>Danh Mục</th>
@@ -54,8 +53,8 @@
                                 <image src="{{ asset("storage/product/$product->anh_san_pham") }}" alt="img" width="80">
                             </td>
                             <td>{{ $product->ten_san_pham }}</td>
-                            <td>{{ $product->gia }}</td>
-                            <td>{{ $product->so_luong }}</td>
+                            <td class="text-right font-weight-bold text-primary">
+                                {{ number_format( $product->gia, 0, '', ',') }}</td>
                             <td>
                                 @if ( $product->tinh_trang == 0)
                                 <span class="text-white bg-secondary p-1">tạm ngưng</span>
@@ -74,7 +73,7 @@
                             <td>{{ date("H:m d/m/y", strtotime($product->thoi_gian_tao)) }}</td>
                             <td>
                                 <a href="{{ url("admin/product/info/$product->ma_san_pham") }}"
-                                    class="btn btn-info btn-circle btn-sm">
+                                    class="btn btn-info btn-sm">
                                     <i class="fas fa-info-circle"></i>
                                 </a>
                                 <a href="{{ url("admin/product/delete/$product->ma_san_pham ") }}"
@@ -122,25 +121,5 @@
         })
         return false
     }
-    // Kiểm tra biến result từ server gửi về để thông báo kết quả
-    @if(isset($result))
-    @if($result == "success")
-    Swal.fire({
-        icon: 'success',
-        title: 'Thành Công',
-        showConfirmButton: false,
-        timer: 1200
-    }).then((result) => {
-        location.assign("{{ url('admin/product/list') }}")
-    })
-    @else
-
-    Swal.fire({
-        icon: 'error',
-        title: 'Oops...',
-        text: 'Không Thành Công!',
-    })
-    @endif
-    @endif
 </script>
 @endsection

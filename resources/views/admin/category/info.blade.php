@@ -81,18 +81,6 @@
     })
     @endif
 
-    // Kiểm tra biến result
-    @if(isset($result))
-    @if($result == "fail")
-    Swal.fire({
-        title: 'Thất Bại',
-        text: "{{ $message }}",
-        icon: 'error',
-        confirmButtonText: 'OK'
-    })
-    @endif
-    @endif
-
     // Hiển thị ảnh upload
     let image_input_DOM = document.querySelector("#user_image");
     image_input_DOM.addEventListener("input", () => {

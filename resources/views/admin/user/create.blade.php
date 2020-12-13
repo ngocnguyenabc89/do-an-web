@@ -8,7 +8,7 @@
 </div>
 <div class="d-sm-flex align-items-center justify-content-between mb-4">
     <h1 class="h3 mb-0 text-primary font-weight-bold">Tạo Mới</h1>
-    <h5><a class="text-primary mb-5" href="{{url('admin/user/list')}}">Người dùng</a>  / Tạo Mới</h5>
+    <h5><a class="text-primary mb-5" href="{{url('admin/user/list')}}">Người dùng</a> / Tạo Mới</h5>
 </div>
 <!-- Page Body -->
 <div class="card">
@@ -27,7 +27,8 @@
                         <label for="user_name" class="col-md-3 col-form-label">Tên</label>
                         <div class="col-sm-8">
                             <input type="text" name="user_name" class="form-control" id="user_name"
-                                placeholder="Nhập tên" pattern=".{5,40}" title="Tối thiểu 5 ký tự và tối đa 40 ký tự" required />
+                                placeholder="Nhập tên" pattern=".{5,40}" title="Tối thiểu 5 ký tự và tối đa 40 ký tự"
+                                required />
                         </div>
                     </div>
 
@@ -36,7 +37,8 @@
                         <label for="user_phone" class="col-md-3 col-form-label">Điện thoại</label>
                         <div class="col-sm-8">
                             <input type="number" name="user_phone" class="form-control" id="user_phone"
-                                placeholder="Nhập điện thoại" pattern=".{10,15}" title="Tối thiểu 10 ký tự và tối đa 15 ký tự" required />
+                                placeholder="Nhập điện thoại" pattern=".{10,15}"
+                                title="Tối thiểu 10 ký tự và tối đa 15 ký tự" required />
                         </div>
                     </div>
 
@@ -55,9 +57,10 @@
                     <div class="form-group row">
                         <label for="user_image" class="col-md-3 col-form-label">Ảnh đại diện</label>
                         <div class="col-sm-8">
-                            <input type="file" name="user_image" class="form-control mb-3 p-1" accept="image/*" id="user_image"
-                                required>
-                            <img id="output" src="{{ asset('images/default.png')}}" width="300" style="border:2px solid #000; border-radius: 5px;"/>
+                            <input type="file" name="user_image" class="form-control mb-3 p-1" accept="image/*"
+                                id="user_image" required>
+                            <img id="output" src="{{ asset('images/default.png')}}" width="300"
+                                style="border:2px solid #000; border-radius: 5px;" />
                         </div>
                     </div>
 
@@ -71,7 +74,8 @@
                         <label for="user_email" class="col-md-3 col-form-label">Email</label>
                         <div class="col-md-8">
                             <input type="email" name="user_email" class="form-control" id="user_email"
-                                placeholder="Nhập email" pattern=".{10,50}" title="Tối thiểu 10 ký tự và tối đa 50 ký tự" required />
+                                placeholder="Nhập email" pattern=".{10,50}"
+                                title="Tối thiểu 10 ký tự và tối đa 50 ký tự" required />
                         </div>
                     </div>
 
@@ -79,7 +83,9 @@
                     <div class="form-group row">
                         <label for="user_password" class="col-md-3 col-form-label">Mật khẩu</label>
                         <div class="col-md-8">
-                            <input type="password" name="user_password" class="form-control" id="user_password" placeholder="Nhập mật khẩu" pattern=".{6,30}" title="Tối thiểu 6 ký tự và tối đa 30 ký tự" required />
+                            <input type="password" name="user_password" class="form-control" id="user_password"
+                                placeholder="Nhập mật khẩu" pattern=".{6,30}"
+                                title="Tối thiểu 6 ký tự và tối đa 30 ký tự" required />
                         </div>
                     </div>
 
@@ -117,18 +123,6 @@
                 icon: 'error',
                 confirmButtonText: 'OK'
             })
-        @endif
-
-        // Kiểm tra biến result
-        @if (isset($result))
-            @if ($result == "fail")
-            Swal.fire({
-                title: 'Thất Bại',
-                text: "{{ $message }}",
-                icon: 'error',
-                confirmButtonText: 'OK'
-            })
-        @endif
         @endif
 
         // Hiển thị ảnh upload

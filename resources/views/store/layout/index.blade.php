@@ -11,13 +11,12 @@
 
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&display=swap"
-    rel="stylesheet">
+        rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap"
-    rel="stylesheet">
+        rel="stylesheet">
 
     <!-- Css Styles -->
     <link rel="stylesheet" href="{{ asset('store-assets/css/bootstrap.min.css') }}" type="text/css">
-    <link rel="stylesheet" href="{{ asset('store-assets/css/flaticon.css') }}" type="text/css">
     <link rel="stylesheet" href="{{ asset('store-assets/css/barfiller.css') }}" type="text/css">
     <link rel="stylesheet" href="{{ asset('store-assets/css/magnific-popup.css') }}" type="text/css">
     <link rel="stylesheet" href="{{ asset('store-assets/css/font-awesome.min.css') }}" type="text/css">
@@ -26,7 +25,7 @@
     <link rel="stylesheet" href="{{ asset('store-assets/css/owl.carousel.min.css') }}" type="text/css">
     <link rel="stylesheet" href="{{ asset('store-assets/css/slicknav.min.css') }}" type="text/css">
     <link rel="stylesheet" href="{{ asset('store-assets/css/style.css') }}" type="text/css">
-    
+
 </head>
 
 <body>
@@ -53,22 +52,25 @@
     @include('store.layout.footer')
     <!-- Footer Section End -->
 
-<!-- Search Begin -->
-<div class="search-model">
-    @include('store.layout.search')
-</div>
-<!-- Search End -->
+    <!-- Search Begin -->
+    <div class="search-model">
+        @include('store.layout.search')
+    </div>
+    <!-- Search End -->
 
-<!-- Js Plugins -->
-<script src="{{ asset('store-assets/js/bootstrap.min.css') }}"></script>
-<script src="{{ asset('store-assets/js/jquery-3.3.1.min.js') }}"></script>
-<script src="{{ asset('store-assets/js/bootstrap.min.js') }}"></script>
-<script src="{{ asset('store-assets/js/jquery.nice-select.min.js') }}"></script>
-<script src="{{ asset('store-assets/js/jquery.barfiller.js') }}"></script>
-<script src="{{ asset('store-assets/js/jquery.magnific-popup.min.js') }}"></script>
-<script src="{{ asset('store-assets/js/owl.carousel.min.js') }}"></script>
-<script src="{{ asset('store-assets/js/jquery.nicescroll.min.js') }}"></script>
-<script src="{{ asset('store-assets/js/main.js') }}"></script>
+    <!-- Js Plugins -->
+    <script src="{{ asset('store-assets/js/jquery-3.3.1.min.js') }}"></script>
+    <script src="{{ asset('store-assets/js/jquery.nice-select.min.js') }}"></script>
+    <script src="{{ asset('store-assets/js/jquery.barfiller.js') }}"></script>
+    <script src="{{ asset('store-assets/js/jquery.magnific-popup.min.js') }}"></script>
+    <script src="{{ asset('store-assets/js/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('store-assets/js/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('store-assets/js/owl.carousel.min.js') }}"></script>
+    <script src="{{ asset('store-assets/js/jquery.nicescroll.min.js') }}"></script>
+    <script src="{{ asset('store-assets/js/main.js') }}"></script>
+
+    <!-- JS tự viết -->
+    @yield('script')
 </body>
 
 </html>

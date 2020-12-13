@@ -457,13 +457,13 @@ ol {
 }
 
 .header__top__right__cart a span {
-    font-size: 15px;
+    font-size: 13px;
     color: #111111;
     font-weight: 600;
     position: absolute;
     left: 7px;
-    top: 4px;
-}
+    top: 8px;
+  }
 
 .header__top__right__cart .cart__price {
     display: inline-block;

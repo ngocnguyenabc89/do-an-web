@@ -8,25 +8,23 @@
     <!-- Hero Section Begin -->
     <section class="hero">
         <div class="hero__slider owl-carousel">
-            <div class="hero__item set-bg" data-setbg="{{ asset("store-assets/img/hero.jpg") }}"
-                style="background-image: url({{ asset("store-assets/img/hero.jpg") }})">
+            <div class="hero__item set-bg" data-setbg="img/hero/hero-1.jpg">
                 <div class="container">
                     <div class="row d-flex justify-content-center">
                         <div class="col-lg-8">
                             <div class="hero__text">
-                                <h2>Hãy làm cho cuộc sống của bạn ngọt ngào hơn từng miếng một!</h2>
+                                <h2>Tin tuws</h2>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="hero__item set-bg" data-setbg="{{ asset('store-assets/img/hero.jpg') }}"
-                style="background-image: url({{ asset("store-assets/img/hero.jpg") }})">
+            <div class="hero__item set-bg" data-setbg="img/hero/hero-1.jpg">
                 <div class="container">
                     <div class="row d-flex justify-content-center">
                         <div class="col-lg-8">
                             <div class="hero__text">
-                                <h2>Tin tức khuyến mãi trong tuần</h2>
+                                <h2>Giải tỏa mọi căng thẳng bằng những thức uống yêu thích!</h2>
                             </div>
                         </div>
                     </div>
@@ -63,23 +61,28 @@
     <section class="product spad">
         <div class="container">
             <div class="row">
-                <!-- 1 sản phẩm -->
-                <div class="col-lg-3 col-md-6 col-sm-6">
-                    <div class="product__item">
-                        <div class="product__item__pic set-bg" data-setbg="{{ asset('store-assets/img/') }}">
-                            <div class="product__label">
-                                <span>Loại sản phẩm</span>
+                <<<<<<< HEAD <!-- 1 sản phẩm -->
+                    =======
+                    <!-- 1 sản phẩm -->
+                    @foreach
+                    >>>>>>> refs/remotes/origin/master
+                    <div class="col-lg-3 col-md-6 col-sm-6">
+                        <div class="product__item">
+                            <div class="product__item__pic set-bg" data-setbg="{{ asset('store-assets/img/') }}">
+                                <div class="product__label">
+                                    <span>Loại sản phẩm</span>
+                                </div>
                             </div>
-                        </div>
-                        <div class="product__item__text">
-                            <h6><a href="{{ url('store/shop-detail') }}">Tên sản phẩm</a></h6>
-                            <div class="product__item__price">Giá</div>
-                            <div class="cart_add">
-                                <a href="{{ url('store/customer/shopping-cart') }}">Thêm vào giỏ</a>
+                            <div class="product__item__text">
+                                <h6><a href="{{ url('store/shop-detail') }}">Tên sản phẩm</a></h6>
+                                <div class="product__item__price">Giá</div>
+                                <div class="cart_add">
+                                    <a href="{{ url('store/customer/shopping-cart') }}">Thêm vào giỏ</a>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                    @endforeach
             </div>
         </div>
     </section>

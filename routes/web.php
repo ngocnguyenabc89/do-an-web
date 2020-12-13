@@ -27,6 +27,32 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+//Route::get('store', 'AdminController@index'); // URL = localhost:8000/admin
+
+Route::group(['prefix' => 'store'], function () {
+
+    // Dashboard
+    Route::get('dashboard', function () {
+        return view('store.dashboard.dashboard');
+    });
+
+    // Shop
+    Route::get('shop', function () {
+        return view('store.shop.shop');
+    });
+
+    // Shop Detail
+    Route::get('shop-detail', function () {
+        return view('store.shop.shop-detail');
+    });
+
+    // Customer Group
+    Route::group(['prefix' => 'customer'], function() {
+
+    });
+});
+
+
 
 /*
 |--------------------------------------------------------------------------

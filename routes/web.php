@@ -5,18 +5,6 @@ use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
-
-
-/*
-|--------------------------------------------------------------------------
 | STORE Web Routes
 |--------------------------------------------------------------------------
 |
@@ -24,9 +12,31 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+// Trang chủ
+Route::get('/', 'StoreController@home');
+
+// Cửa hàng
+Route::group(['prefix' => 'shop'], function () {
+
+    Route::get('/', 'StoreController@shop');
+    Route::get('category/{category_id}', 'StoreController@productListOfCategory');
 });
+
+// Thanh Toán
+Route::checkout()
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 /*

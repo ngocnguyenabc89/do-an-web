@@ -90,12 +90,13 @@ class OrderController extends Controller
 
                     $product = DB::table('san_pham')->where('ma_san_pham', $productIdList[$i])->first();
                     $productPrice = $product->gia;
-                    // dd($productPrice, $productIdList[$i], $quantityUpdatedList[$i]);
+                    // dd($productPrice, $productIdList[$i], $quantityUpdatedList[$i], $orderId);
+
                     DB::table('chi_tiet_don_hang')
                         ->where([['ma_don_hang', $orderId], ['ma_san_pham', $productIdList[$i]]])
                         ->updateOrInsert(
-                            ['so_luong_ban' => $quantityUpdatedList[$i], 'thanh_tien' => $productPrice * $quantityUpdatedList[$i]],
-                            ['ma_don_hang' => $orderId, 'ma_san_pham' => $productIdList[$i], 'don_gia' => $productPrice]
+                            ['ma_don_hang' => $orderId, 'ma_san_pham' => $productIdList[$i], 'don_gia' => $productPrice],
+                            ['so_luong_ban' => $quantityUpdatedList[$i], 'thanh_tien' => $productPrice * $quantityUpdatedList[$i]]  
                         );
                 } else {
                     DB::table('chi_tiet_don_hang')->where([['ma_don_hang', $orderId], ['ma_san_pham', $productIdList[$i]]])->delete();

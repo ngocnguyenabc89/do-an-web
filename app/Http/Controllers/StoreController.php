@@ -31,8 +31,15 @@ class StoreController extends Controller
 
     public function home()
     {
-
-        return view('store.home');
+        try{
+            $product_list = DB::table('san_pham')
+                ->join('danh_muc', 'danh_muc.ma_danh_muc', '=', 'san_pham.ma_danh_muc')
+                ->where('san_pham.phan_loai', 1)
+                ->get();
+        } catch(Exception $ex) {
+            Redirect::to('/');
+        }
+        return view('store.home', ['product_list' => $product_list]);
     }
 
 

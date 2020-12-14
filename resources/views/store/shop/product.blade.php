@@ -16,8 +16,8 @@
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-6">
                     <div class="breadcrumb__links">
-                        <a href="{{ url("url('/') ") }}">Trang chủ</a>
-                        <a href="{{ url("url('/shop') ") }}">Cửa hàng</a>
+                        <a href="{{ url("/")}}">Trang chủ</a>
+                        <a href="{{ url("/shop") }}">Cửa hàng</a>
                         <span>{{ $product->ten_san_pham}}</span>
                     </div>
                 </div>

@@ -187,7 +187,7 @@ ol {
     top: 0;
     left: 0;
     z-index: 999999;
-    background: #000;
+    background: #000000e0;
 }
 
 .loader {
@@ -342,14 +342,14 @@ ol {
     width: 50%;
 }
 
-.header__search button{
+.header__search button {
     background-color: #f08632;
     color: white;
     vertical-align: middle;
     align-content: center;
 }
 
-.header__search button:hover{
+.header__search button:hover {
     background-color: black;
     color: white;
 }
@@ -373,8 +373,8 @@ ol {
     font-size: 13px;
     font-weight: 600;
     position: absolute;
-    
-  }
+
+}
 
 .header__top__right__cart .cart__price {
     display: inline-block;

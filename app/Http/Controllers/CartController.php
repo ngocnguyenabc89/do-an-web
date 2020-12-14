@@ -197,7 +197,10 @@ class CartController extends Controller
 
     public function order()
     {
-
+        // Nếu giỏ hàng trống
+        if (!Session::has('cart') || count(Session::get('cart')) == 0) {
+            return Redirect::to("/");
+        }
         return view('store.checkout.order');
     }
 
@@ -206,12 +209,91 @@ class CartController extends Controller
      * Create Order
      * method: POST
      */
-    public function createOrder()
+    public function createOrder(Request $request)
     {
 
         // Nếu giỏ hàng trống
         if (!Session::has('cart') || count(Session::get('cart')) == 0) {
-            Redirect::to("/");
+            return Redirect::to("/");
         }
+        // dd($request->all());
+
+        // Nếu tồn tại giỏ hàng thì lấy thông tin khách hàng gửi lên
+        $customer_name = $request->customer_name;
+        $customer_address = $request->customer_address;
+        $customer_phone = $request->customer_phone;
+        $customer_time_delivery = explode("T", $request->customer_time_delivery)[0] . " " . explode("T", $request->customer_time_delivery)[1];
+        // dd($customer_time_delivery);
+        $customer_note = $request->customer_note;
+        $amount_total = $request->amount_total;
+
+        $quantity_total = $request->quantity_total;
+        $textHistory = date("H:m:s d/m/y") . " : ĐƠN HÀNG ĐƯỢC TẠO\r\n";
+
+
+
+        try {
+            // Lưu đơn hàng vào db
+            $order_id_insert = DB::table('don_hang')
+                ->insertGetId([
+                    'ten_khach_hang' => $customer_name,
+                    'dien_thoai_khach_hang' => $customer_phone,
+                    'dia_chi_giao_hang' => $customer_address,
+                    'thoi_gian_giao_hang' => $customer_time_delivery,
+                    'ghi_chu_khach_hang' => $customer_note,
+                    'tong_tien' => $amount_total,
+                    'tong_so_luong' => $quantity_total,
+                    'tinh_trang' => 1,
+                    'lich_su' => $textHistory,
+                ]);
+
+            // Lấy giỏ hàng từ session
+            $cart = Session::get('cart');
+            // dd($cart);
+
+            // Lưu chi tiết đơn hàng
+            foreach ($cart as $product) {
+
+                DB::table('chi_tiet_don_hang')
+                    ->insert([
+                        'ma_don_hang' => $order_id_insert,
+                        'ma_san_pham' => $product->ma_san_pham,
+                        'so_luong_ban' => $product->qty,
+                        'don_gia' => $product->gia,
+                        'thanh_tien' => $product->qty * $product->gia
+                    ]);
+            }
+
+            // Làm rỗng giỏ hàng trong session
+            Session::put('cart', null);
+
+            // Lấy thông tin đơn hàng 
+            $order = DB::table('don_hang')->where('ma_don_hang', $order_id_insert)->first();
+            $order_detail = DB::table('chi_tiet_don_hang')
+                ->join('san_pham', 'san_pham.ma_san_pham', 'chi_tiet_don_hang.ma_san_pham')
+                ->where('ma_don_hang', $order_id_insert)->get();
+        } catch (Exception $ex) {
+            Session::flash('fail', $ex->getMessage());
+            return Redirect::back();
+        }
+
+        Session::flash('success', 'Đặt Hàng Thành Công');
+        return view('store.checkout.order-complete', ['order' => $order, 'order_detail' => $order_detail]);
+    }
+
+    /**
+     * Cancel Order
+     * method: get
+     */
+    public function cancelOrder()
+    {
+        // Nếu giỏ hàng trống
+        if (!Session::has('cart') || count(Session::get('cart')) == 0) {
+            return Redirect::to("/");
+        }
+
+        // Xóa giỏ hàng
+        Session::put('cart', null);
+        return Redirect::to('/');
     }
 }

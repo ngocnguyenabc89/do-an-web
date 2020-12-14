@@ -16,7 +16,7 @@
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-6">
                     <div class="breadcrumb__links">
-                        <a href="{{ url('store/dashboard') }}">Trang chủ</a>
+                        <a href="{{ url('/') }}">Trang chủ</a>
                         <span>Cửa hàng</span>
                     </div>
                 </div>

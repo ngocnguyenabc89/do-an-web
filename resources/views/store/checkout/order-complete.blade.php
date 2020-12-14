@@ -33,40 +33,30 @@
                     <div class="row">
                         <div class="col-lg-10 col-md-10">
                             <div class="checkout__order">
-                                <h6 class="order__title">Đơn hàng của bạn</h6>
+                                <h6 class="order__title">Đơn đặt hàng số #{{ $order->ma_don_hang }}}</h6>
+                                <h6 class="order__title">Khách Hàng: {{ $order->ten_khach_hang }}</h6>
+                                <h6 class="order__title">Điện Thoại: {{ $order->dien_thoai_khach_hang }}</h6>
                                 <div class="checkout__order__products">
                                     <table class="checkout__order__products">
+                                        @foreach($order_detail as $product)
                                         <tr>
-                                            <th>Sản phẩm</th>
-                                            <th>Số lượng</th>
-                                            <th>Thành tiền</th>
+                                            <td>{{ $product->ten_san_pham }}</td>
+                                            <td>{{ $product->don_gia }}</td>
+                                            <td>{{ $product->so_luong_ban }}</td>
+                                            <td class="text-right">{{ number_format($product->thanh_tien, 0, '', ',') }}
+                                            </td>
                                         </tr>
-                                        <tr>
-                                            <td><span>Vanilla cake</span></td>
-                                            <td><span>3</span></td>
-                                            <td><span>1000000</span></td>
-                                        </tr>
+                                        @endforeach
                                     </table>
                                 </div>
-                                
+
                                 <ul class="checkout__total__all">
-                                    <li>Phí vận chuyển <span>90000</span></li>
-                                    <li>Khuyến mãi <span>0</span></li>
-                                    <li>Tổng cộng <span>190000</span></li>
+                                    <li>Tổng số lượng <span>{{ $order->tong_so_luong }}</span></li>
+                                    <li>Tổng cộng <span>{{ $order->tong_tien }}</span></li>
                                 </ul>
-                                <div class="checkout__input__checkbox">
-                                    <label for="confirm-order">
-                                        Đã xác nhận
-                                        <input type="checkbox" id="confirm-order">
-                                        <span class="checkmark"></span>
-                                    </label>
-                                </div>
-                                <div class="checkout__input__checkbox">
-                                    <label for="confirm-receive">
-                                        Đã nhận hàng
-                                        <input type="checkbox" id="confirm-receive">
-                                        <span class="checkmark"></span>
-                                    </label>
+                                <div>
+                                    <strong><em>Nhân Viên Của Chúng Tôi Sẽ Liên Hệ Với Bạn Trong Vòng 1 Giờ
+                                            Đồng Hồ Kể Từ Thời Điểm Đặt Hàng. Trân Trọng Cảm Ơn.</em></strong>
                                 </div>
                             </div>
                         </div>

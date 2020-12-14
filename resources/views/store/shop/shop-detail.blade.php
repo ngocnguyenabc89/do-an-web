@@ -16,8 +16,8 @@
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-6">
                     <div class="breadcrumb__links">
-                        <a href="{{ url('store/dashboard') }}">Trang chủ</a>
-                        <a href="{{ url('store/shop') }}">Cửa hàng</a>
+                        <a href="{{ url('/') }}">Trang chủ</a>
+                        <a href="{{ url('/shop') }}">Cửa hàng</a>
                         <span>Tên sản phẩm</span>
                     </div>
                 </div>
@@ -50,7 +50,8 @@
                                 </div>
                             </div>
                             <a href="{{ url('store/customer/shooping-cart') }}" class="primary-btn">Thêm vào giỏ</a>
-                            <a href="{{ url('store/customer//wishlist') }}" class="heart__btn"><span class="icon_heart_alt"></span></a>
+                            <a href="{{ url('store/customer//wishlist') }}" class="heart__btn"><span
+                                    class="icon_heart_alt"></span></a>
                         </div>
                     </div>
                 </div>

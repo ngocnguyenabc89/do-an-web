@@ -29,8 +29,10 @@ Route::group(['prefix' => 'checkout'], function () {
     Route::get('add-cart/{product_id}', 'CartController@addCart');
     Route::get('cart', 'CartController@cart');
     Route::get('order', 'CartController@order');
+    Route::get('cancel-order', 'CartController@cancelOrder');
     Route::post('add-cart', 'CartController@addCartWithQuantity');
     Route::post('update-cart', 'CartController@updateCart');
+    Route::post('create-order', 'CartController@createOrder');
 });
 
 

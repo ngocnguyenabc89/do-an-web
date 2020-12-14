@@ -68,9 +68,30 @@
     <script src="{{ asset('store-assets/js/owl.carousel.min.js') }}"></script>
     <script src="{{ asset('store-assets/js/jquery.nicescroll.min.js') }}"></script>
     <script src="{{ asset('store-assets/js/main.js') }}"></script>
-
+    <!-- Sweet Alert 2 plugin -->
+    <script src="{{ asset('admin-assets/js/sweetalert2.js')}}"></script>
     <!-- JS tự viết -->
     @yield('script')
+
+    <script>
+        // Kiểm tra kết quả xử lý
+				@if(Session::has('success'))
+        Swal.fire({
+            title: 'Thành Công',
+            text: "{{ Session::get('success') }}",
+            icon: 'success',
+            showConfirmButton: false,
+            timer: 1300
+        })
+        @elseif(Session::has('fail'))
+        Swal.fire({
+            title: 'Thất Bại',
+            text: "{{ Session::get('fail') }}",
+            icon: 'error',
+            showConfirmButton: true,
+        })
+        @endif
+    </script>
 </body>
 
 </html>

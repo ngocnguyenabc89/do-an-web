@@ -97,7 +97,6 @@ class OrderController extends Controller
                         ->updateOrInsert(
                             ['ma_don_hang' => $orderId, 'ma_san_pham' => $productIdList[$i], 'don_gia' => $productPrice],
                             ['so_luong_ban' => $quantityUpdatedList[$i], 'thanh_tien' => $productPrice * $quantityUpdatedList[$i]]
-
                         );
                 } else {
                     DB::table('chi_tiet_don_hang')->where([['ma_don_hang', $orderId], ['ma_san_pham', $productIdList[$i]]])->delete();
@@ -106,7 +105,7 @@ class OrderController extends Controller
 
             // Cập nhật lại số tiền của đơn hàng và lịch sử
             $amountTotal = DB::table('chi_tiet_don_hang')
-                ->where('ma_don_hang', 1)
+                ->where('ma_don_hang', $orderId)
                 ->sum('thanh_tien');
 
             $order = DB::table('don_hang')->where('ma_don_hang', $orderId)->first();
@@ -192,7 +191,7 @@ class OrderController extends Controller
             // Cập nhật trạng thái 2 và lịch sử
             DB::table('don_hang')
                 ->where('ma_don_hang', $request->order_id)
-                ->update(['tinh_trang' => $order_status, 'lich_su' => $textHistory, 'nhan_vien_cap_nhat' => Session::get('user_id')]);
+                ->update(['tinh_trang' => $order_status, 'lich_su' => $textHistory, 'nhan_vien_cap_nhat' => Session::get('user_id'), 'ghi_chu_nhan_vien' => $request->user_note]);
         } catch (Exception $ex) {
             Session::flash('fail', $ex->getMessage());
             return Redirect::back();

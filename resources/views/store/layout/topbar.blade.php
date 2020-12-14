@@ -23,10 +23,12 @@ $quantity = 0;
                         <div class="header__top__left">
                             <a href="{{ url('/') }}"><img src="{{ asset('store-assets/img/logo.png') }}" alt=""></a>
                         </div>
-                        <form
-                            class="header__search d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100">
+                        <form action="{{ url('shop/search') }}"
+                            class="header__search d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100"
+                            method="post">
+                            @csrf
                             <div class="input-group">
-                                <input type="text" class="form-control bg-light border-0 small"
+                                <input type="text" name="product_name" class="form-control bg-light border-0 small"
                                     placeholder="Nhập tên sản phẩm ...">
                                 <button class="btn" type="submit"><i class="fa fa-search"></i></button>
                             </div>

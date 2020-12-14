@@ -101,9 +101,25 @@ class AdminController extends Controller
             ->where('tinh_trang', 2)
             ->count('ma_don_hang');
 
-        $order_cancel_percent = floor($order_cancel / $order_total * 100);
-        $order_pending_percent = floor($order_pending / $order_total * 100);
-        $order_confirm_percent = floor($order_confirm / $order_total * 100);
+        if ($order_cancel == 0) {
+
+            $order_cancel_percent = 0;
+        } else {
+            $order_cancel_percent = floor($order_cancel / $order_total * 100);
+        }
+
+        if ($order_pending == 0) {
+            $order_pending_percent = 0;
+        } else {
+            $order_pending_percent = floor($order_pending / $order_total * 100);
+        }
+
+        if ($order_confirm == 0) {
+            $order_confirm_percent = 0;
+        } else {
+            $order_confirm_percent = floor($order_confirm / $order_total * 100);
+        }
+
         $order_success_percent = 100 - ($order_cancel_percent + $order_pending_percent + $order_confirm_percent);
 
         $order_percent_list = [$order_cancel_percent, $order_pending_percent, $order_confirm_percent, $order_success_percent];

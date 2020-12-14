@@ -59,7 +59,8 @@ $quantity_total = 0;
                                 <div class="col-lg-6">
                                     <div class="checkout__input">
                                         <p>Thời Gian Giao Hàng<span>*</span></p>
-                                        <input class="form-control" name="customer_time_delivery" type="datetime-local">
+                                        <input class="form-control" name="customer_time_delivery" type="datetime-local"
+                                            required>
                                     </div>
                                 </div>
                             </div>

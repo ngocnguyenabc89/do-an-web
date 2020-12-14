@@ -66,7 +66,7 @@
                                             <div class="quantity">
                                                 <div class="pro-qty text-right">
                                                     <input type="number" name="product_quantity_list[]"
-                                                        class="form-control border text-right"
+                                                        class="form-control border text-center"
                                                         value="{{ $product->qty }}" min="0">
                                                 </div>
                                             </div>

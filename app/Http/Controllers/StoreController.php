@@ -31,12 +31,12 @@ class StoreController extends Controller
 
     public function home()
     {
-        try{
+        try {
             $product_list = DB::table('san_pham')
                 ->join('danh_muc', 'danh_muc.ma_danh_muc', '=', 'san_pham.ma_danh_muc')
                 ->where('san_pham.phan_loai', 1)
                 ->get();
-        } catch(Exception $ex) {
+        } catch (Exception $ex) {
             Redirect::to('/');
         }
         return view('store.home', ['product_list' => $product_list]);
@@ -51,7 +51,7 @@ class StoreController extends Controller
     public function shop()
     {
 
-        
+
         try {
 
             // Lấy sản phẩm đang mở bán
@@ -109,10 +109,40 @@ class StoreController extends Controller
             if ($product == null) {
                 return Redirect::back();
             }
+
+            $product_list = DB::table('san_pham')
+                ->join('danh_muc', 'danh_muc.ma_danh_muc', 'san_pham.ma_danh_muc')
+                ->where('ma_san_pham', '<>', $product_id)
+                ->get();
+            // dd($product_list);
+        } catch (Exception $ex) {
+            dd($ex->getMessage());
+            return Redirect::back();
+        }
+        return view('store.shop.product', ['product' => $product, 'product_list' => $product_list]);
+    }
+
+
+    /**
+     * Search
+     * method: post
+     */
+
+    public function search(Request $request)
+    {
+        // dd($request->all());
+
+        try {
+            $product_name = mb_strtolower($request->product_name);
+            // $product_name = 'Bánh Chocolate';
+            $query = 'SELECT * FROM san_pham JOIN danh_muc ON san_pham.ma_danh_muc = danh_muc.ma_danh_muc WHERE LOWER(ten_san_pham) LIKE "%' . $product_name . '%"';
+            // dd($query);
+            // dd($product_name);
+            $product_list = DB::select($query);
         } catch (Exception $ex) {
             return Redirect::back();
         }
 
-        return view('store.shop.product', ['product' => $product]);
+        return view('store.shop.search', ['key_word' => $request->product_name, 'product_list' => $product_list]);
     }
 }

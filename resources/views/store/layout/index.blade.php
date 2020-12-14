@@ -17,6 +17,7 @@
 
     <!-- Css Styles -->
     <link rel="stylesheet" href="{{ asset('store-assets/css/bootstrap.min.css') }}" type="text/css">
+    <link rel="stylesheet" href="{{ asset('store-assets/css/flaticon.css') }}" type="text/css">
     <link rel="stylesheet" href="{{ asset('store-assets/css/barfiller.css') }}" type="text/css">
     <link rel="stylesheet" href="{{ asset('store-assets/css/magnific-popup.css') }}" type="text/css">
     <link rel="stylesheet" href="{{ asset('store-assets/css/font-awesome.min.css') }}" type="text/css">
@@ -30,9 +31,9 @@
 
 <body>
     <!-- Page Preloder -->
-    <div id="preloder">
+    {{-- <div id="preloder">
         <div class="loader"></div>
-    </div>
+    </div> --}}
 
     <!-- Offcanvas Menu Begin -->
     @include('store.layout.offcanvas-menu')
@@ -53,18 +54,18 @@
     <!-- Footer Section End -->
 
     <!-- Search Begin -->
-    <div class="search-model">
+    {{-- <div class="search-model">
         @include('store.layout.search')
-    </div>
+    </div> --}}
     <!-- Search End -->
 
     <!-- Js Plugins -->
     <script src="{{ asset('store-assets/js/jquery-3.3.1.min.js') }}"></script>
+    <script src="{{ asset('store-assets/js/bootstrap.min.js') }}"></script>
     <script src="{{ asset('store-assets/js/jquery.nice-select.min.js') }}"></script>
     <script src="{{ asset('store-assets/js/jquery.barfiller.js') }}"></script>
     <script src="{{ asset('store-assets/js/jquery.magnific-popup.min.js') }}"></script>
-    <script src="{{ asset('store-assets/js/bootstrap.min.js') }}"></script>
-    <script src="{{ asset('store-assets/js/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('store-assets/js/jquery.slicknav.js') }}"></script>
     <script src="{{ asset('store-assets/js/owl.carousel.min.js') }}"></script>
     <script src="{{ asset('store-assets/js/jquery.nicescroll.min.js') }}"></script>
     <script src="{{ asset('store-assets/js/main.js') }}"></script>

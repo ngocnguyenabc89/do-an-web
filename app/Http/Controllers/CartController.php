@@ -198,9 +198,9 @@ class CartController extends Controller
     public function order()
     {
         // Nếu giỏ hàng trống
-        if (!Session::has('cart') || count(Session::get('cart')) == 0) {
-            return Redirect::to("/");
-        }
+        // if (!Session::has('cart') || count(Session::get('cart')) == 0) {
+        //     return Redirect::to("/");
+        // }
         return view('store.checkout.order');
     }
 
@@ -213,9 +213,9 @@ class CartController extends Controller
     {
 
         // Nếu giỏ hàng trống
-        if (!Session::has('cart') || count(Session::get('cart')) == 0) {
-            return Redirect::to("/");
-        }
+        // if (!Session::has('cart') || count(Session::get('cart')) == 0) {
+        //     return Redirect::to("/");
+        // }
         // dd($request->all());
 
         // Nếu tồn tại giỏ hàng thì lấy thông tin khách hàng gửi lên
@@ -277,7 +277,6 @@ class CartController extends Controller
             return Redirect::back();
         }
 
-        Session::flash('success', 'Đặt Hàng Thành Công');
         return view('store.checkout.order-complete', ['order' => $order, 'order_detail' => $order_detail]);
     }
 

@@ -14,10 +14,10 @@
     /*------------------
         Preloader
     --------------------*/
-    $(window).on('load', function () {
-        $(".loader").fadeOut("fast");
-        $("#preloder").fadeOut("fast");
-    });
+    // $(window).on('load', function () {
+    //     $(".loader").fadeOut("fast");
+    //     $("#preloder").fadeOut("fast");
+    // });
 
     /*------------------
         Background Set
@@ -29,11 +29,11 @@
 
     //Search Switch
     $('.search-switch').on('click', function () {
-        $('.search-model').fadeIn(100);
+        $('.search-model').fadeIn(10);
     });
 
     $('.search-close-switch').on('click', function () {
-        $('.search-model').fadeOut(100, function () {
+        $('.search-model').fadeOut(10, function () {
             $('#search-input').val('');
         });
     });
@@ -70,7 +70,7 @@
         navText: ["<i class='fa fa-angle-left'><i/>", "<i class='fa fa-angle-right'><i/>"],
         animateOut: 'fadeOut',
         animateIn: 'fadeIn',
-        smartSpeed: 1200,
+        smartSpeed: 100,
         autoHeight: false,
         autoplay: false
     });
@@ -85,7 +85,7 @@
         dots: false,
         nav: true,
         navText: ["<span class='arrow_carrot-left'><span/>", "<span class='arrow_carrot-right'><span/>"],
-        smartSpeed: 1200,
+        smartSpeed: 10,
         autoHeight: false,
         autoplay: false,
         responsive: {
@@ -116,7 +116,7 @@
         margin: 0,
         items: 2,
         dots: true,
-        smartSpeed: 1200,
+        smartSpeed: 500,
         autoHeight: false,
         autoplay: true,
         responsive: {
@@ -133,15 +133,18 @@
         Related Products Slider
     ----------------------------------*/
     $(".related__products__slider").owlCarousel({
+        animateOut: 'fadeOut',
         loop: true,
         margin: 0,
         items: 4,
         dots: false,
         nav: true,
         navText: ["<span class='arrow_carrot-left'><span/>", "<span class='arrow_carrot-right'><span/>"],
-        smartSpeed: 1200,
+        smartSpeed: 500,
         autoHeight: false,
-        autoplay: true,
+        autoplay: false,
+        autolayTimeout: 5000,
+        atolayHoverPause: false,
         responsive: {
             0: {
                 items: 1
@@ -175,15 +178,15 @@
     --------------------*/
     $('#bar1').barfiller({
         barColor: '#111111',
-        duration: 2000
+        duration: 1
     });
     $('#bar2').barfiller({
         barColor: '#111111',
-        duration: 2000
+        duration: 1
     });
     $('#bar3').barfiller({
         barColor: '#111111',
-        duration: 2000
+        duration: 1
     });
 
 
@@ -205,24 +208,24 @@
     /*-------------------
         Quantity change
     --------------------- */
-    var proQty = $('.pro-qty');
-    proQty.prepend('<span class="dec qtybtn">-</span>');
-    proQty.append('<span class="inc qtybtn">+</span>');
-    proQty.on('click', '.qtybtn', function () {
-        var $button = $(this);
-        var oldValue = $button.parent().find('input').val();
-        if ($button.hasClass('inc')) {
-            var newVal = parseFloat(oldValue) + 1;
-        } else {
-            // Don't allow decrementing below zero
-            if (oldValue > 0) {
-                var newVal = parseFloat(oldValue) - 1;
-            } else {
-                newVal = 0;
-            }
-        }
-        $button.parent().find('input').val(newVal);
-    });
+    // var proQty = $('.pro-qty');
+    // proQty.prepend('<span class="dec qtybtn">-</span>');
+    // proQty.append('<span class="inc qtybtn">+</span>');
+    // proQty.on('click', '.qtybtn', function () {
+    //     var $button = $(this);
+    //     var oldValue = $button.parent().find('input').val();
+    //     if ($button.hasClass('inc')) {
+    //         var newVal = parseFloat(oldValue) + 1;
+    //     } else {
+    //         // Don't allow decrementing below zero
+    //         if (oldValue > 0) {
+    //             var newVal = parseFloat(oldValue) - 1;
+    //         } else {
+    //             newVal = 0;
+    //         }
+    //     }
+    //     $button.parent().find('input').val(newVal);
+    // });
 
 
 

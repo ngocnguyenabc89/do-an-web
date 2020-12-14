@@ -21,6 +21,7 @@ Route::group(['prefix' => 'shop'], function () {
     Route::get('/', 'StoreController@shop');
     Route::get('category/{category_id}', 'StoreController@productListOfCategory');
     Route::get('product/{product_id}', 'StoreController@productInfo');
+    Route::post('search', 'StoreController@search');
 });
 
 // Checkout

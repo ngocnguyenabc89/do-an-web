@@ -112,7 +112,7 @@ class StoreController extends Controller
 
             $product_list = DB::table('san_pham')
                 ->join('danh_muc', 'danh_muc.ma_danh_muc', 'san_pham.ma_danh_muc')
-                ->where('ma_san_pham', '<>', $product_id)
+                ->where([['ma_san_pham', '<>', $product_id], ['san_pham.ma_danh_muc', '=', $product->ma_danh_muc]])
                 ->get();
             // dd($product_list);
         } catch (Exception $ex) {

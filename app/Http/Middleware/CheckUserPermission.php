@@ -17,8 +17,8 @@ class CheckUserPermission
      */
     public function handle($request, Closure $next)
     {
-        // kiểm tra có sesssion user_id chưa??
-        if (!Session::has('user_type')) {
+        // kiểm tra có sesssion user_id chưa?
+        if (!Session::has('user_id')) {
             return Redirect::to('admin/login');
         } else if (Session::get('user_type') != 2) {
             return Redirect::to('admin/dashboard');

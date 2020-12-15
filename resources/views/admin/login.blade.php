@@ -93,20 +93,26 @@
     <script src="{{ asset('admin-assets/js/sweetalert2.js')}}"></script>
 
     {{-- Custom JS --}}
-    <script>
-        // Thông báo đăng xuất
-        @if (Session::get('logout_message') != null)
+
+	<script>
+		// Kiểm tra kết quả xử lý
+		@if(Session::has('success'))
         Swal.fire({
+            title: 'Thành Công',
+            text: "{{ Session::get('success') }}",
             icon: 'success',
-            title: '{{ Session::get('logout_message') }}',
-            text: 'Đăng nhập để tiếp tục',
             showConfirmButton: false,
-            timer: 1500
-        }).then((result)=>{
-            {{ Session::put('logout_message', null)}}
+            timer: 1300
+        })
+        @elseif(Session::has('fail'))
+        Swal.fire({
+            title: 'Thất Bại',
+            text: "{{ Session::get('fail') }}",
+            icon: 'error',
+            showConfirmButton: true,
         })
         @endif
-    </script>
+	</script>
 
 </body>
 

@@ -225,6 +225,7 @@ class AdminController extends Controller
     /**
      * Login
      * method: post
+     * bcrypt
      */
     public function login(Request $request)
     {
@@ -232,7 +233,8 @@ class AdminController extends Controller
         $user = DB::table('nguoi_dung')->where('email', '=', $request->user_email)->first();
 
         if ($user == null) {
-            return view('admin.login', ['result' => 'fail', 'message' => 'Không Thành Công']);
+            Session::flash('fail', 'Đăng nhập không thành công');
+            return Redirect::back();
         }
 
         // kiểm tra mật khẩu có đúng ??
@@ -244,6 +246,7 @@ class AdminController extends Controller
         }
 
         // nếu khớp email + password thì lưu thông tin vào session
+        // session là biến toàn cục. put là tồn tại cho đến khi xóa. flash là gọi 1 lần tự động xóa
         Session::put('user_id', $user->ma_nguoi_dung);
         Session::put('user_name', $user->ten_nguoi_dung);
         Session::put('user_type', $user->loai);
@@ -253,7 +256,7 @@ class AdminController extends Controller
         Session::flash('success', 'Đăng nhập thành công');
 
         // Lưu thời gian đăng nhập vào db
-        DB::table('nguoi_dung')->where('ma_nguoi_dung', $user->ma_nguoi_dung)->update(['dang_nhap_gan_nhat' => date("Y-m-d H:m:s")]);
+        DB::table('nguoi_dung')->where('ma_nguoi_dung', $user->ma_nguoi_dung)->update(['dang_nhap_gan_nhat' => date("Y-m-d H:i:s")]);
         return Redirect::to('admin/');
     }
 
@@ -269,8 +272,7 @@ class AdminController extends Controller
         Session::put('user_image', null);
         Session::put('user_password', null);
 
-        Session::put('logout_message', 'Đăng Xuất Thành Công');
+        Session::flash('success', 'Đăng Xuất Thành Công');
         return Redirect::to('admin/login');
-        // return view('admin.login', ['result' => 'success', 'title' => 'Đăng Xuất Thành Công', 'message' => 'Đăng nhập để tiếp tục', 'type' => 'logout']);
     }
 }

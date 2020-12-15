@@ -103,7 +103,7 @@
 
 	<script>
 		// Kiểm tra kết quả xử lý
-				@if(Session::has('success'))
+		@if(Session::has('success'))
         Swal.fire({
             title: 'Thành Công',
             text: "{{ Session::get('success') }}",

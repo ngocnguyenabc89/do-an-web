@@ -38,28 +38,6 @@ Route::group(['prefix' => 'checkout'], function () {
 
 
 
-Route::group(['prefix' => 'store'], function () {
-
-    // Dashboard
-    Route::get('dashboard', function () {
-        return view('store.dashboard.dashboard');
-    });
-
-    // Shop
-    Route::get('shop', function () {
-        return view('store.shop.shop');
-    });
-
-    // Shop Detail
-    Route::get('shop-detail', function () {
-        return view('store.shop.shop-detail');
-    });
-
-    // Customer Group
-    Route::group(['prefix' => 'customer'], function () {
-    });
-});
-
 
 
 /*
@@ -82,7 +60,7 @@ Route::post('admin/login', 'AdminController@login');
 | middleware: Hàm xử lý trung gian. Middleware [check.login]  kiểm tra xem người dùng có đăng nhập chưa. Nếu đăng nhập rồi mới được truy cập vào các route bên trong. Còn không chuyển hướng về trang login
 */
 
-Route::group(['prefix' => 'admin'], function () {
+Route::group(['prefix' => 'admin', 'middleware' => ['check.login']], function () {
 
     // Logout
     Route::get('logout', 'AdminController@logout');
@@ -95,7 +73,7 @@ Route::group(['prefix' => 'admin'], function () {
     Route::get('dashboard', 'AdminController@dashboard');
 
     // User group - Middelware [check.user.permission] chỉ cho phép người Quản trị được vào route này. Nhân viên không đc truy cập
-    Route::group(['prefix' => 'user'], function () {
+    Route::group(['prefix' => 'user', 'middleware' => ['check.user.permission']], function () {
         Route::get('list', 'UserController@viewList'); // URL = localhost:8000/admin/user/list
         Route::get('create', 'UserController@viewCreate'); // URL = localhost:8000/admin/user/create
         Route::get('info/{user_id}', 'UserController@viewInfo'); // URL = localhost:8000/admin/user/info/{user_id}

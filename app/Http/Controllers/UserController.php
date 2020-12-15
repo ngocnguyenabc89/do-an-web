@@ -85,8 +85,8 @@ class UserController extends Controller
             Session::flash('fail', $ex->getMessage());
             return Redirect::back();
         }
-
-        return view('admin.user.list', ['result' => 'success']);
+        Session::flash('success', 'Đã tạo người dùng');
+        return Redirect::to('/admin/user/list');
     }
 
     /**

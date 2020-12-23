@@ -4,7 +4,7 @@
             <div class="row">
                 <div class="col-sm-6">
                     <div class="footer__widget">
-                        <h6><i class="fa fa-location-arrow"></i> 40 Quang Trung P.11 Q.Gò Vấp TPHCM</h6>
+                        <h6><i class="fa fa-phone"></i> 0976 343 522</h6>
                         <h6>THỜI GIAN HOẠT ĐỘNG</h6>
                         <ul>
                             <li>Thứ 2 - Thứ 6: 8:00 - 20:30</li>

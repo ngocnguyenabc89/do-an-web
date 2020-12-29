@@ -15,7 +15,7 @@
                 <div class="col-sm-6">
                     <div class="footer__about">
                         <div class="footer__logo">
-                            <a href="{{ url('store/dashboard') }}"><img src="{{ asset('store-assets/img/footer-logo.png') }}" alt=""></a>
+                            <a href="{{ url('/') }}"><img src="{{ asset('store-assets/img/footer-logo.png') }}" alt=""></a>
                         </div>
                         <div class="footer__social">
                             <a href="#"><i class="fa fa-facebook"></i></a>

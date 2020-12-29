@@ -66,8 +66,7 @@ $quantity_total = 0;
                             </div>
                             <div class="checkout__input">
                                 <p>Ghi chú<span>*</span></p>
-                                <textarea type="text" name="customer_note" class="form-control" cols="60" rows="3"
-                                    placeholder="Ghi chú cho đơn hàng">
+                                <textarea type="text" name="customer_note" class="form-control" cols="60" rows="3">
                                 </textarea>
                             </div>
                         </div>

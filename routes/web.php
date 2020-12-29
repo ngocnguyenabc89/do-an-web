@@ -108,14 +108,12 @@ Route::group(['prefix' => 'admin', 'middleware' => ['check.login']], function ()
     // Order group
     Route::group(['prefix' => 'order'], function () {
         Route::get('list', 'OrderController@viewList'); // URL = localhost:8000/admin/order/list
-        Route::get('create', 'OrderController@viewCreate'); // URL = localhost:8000/admin/order/create
-        Route::get('info/{order_id}', 'OrderController@viewInfo'); // URL = localhost:8000/admin/order/create
+        Route::get('info/{order_id}', 'OrderController@viewInfo'); // URL = localhost:8000/admin/order/info/id
         Route::post('info/update-quantity', 'OrderController@updateQuantity'); // URL = localhost:8000/admin/order/info/update-quantity
         Route::post('info/update-customer', 'OrderController@updateCustomer'); // URL = localhost:8000/admin/order/info/update-quantity
         Route::post('info/confirm/{order_status}', 'OrderController@confirmOrder'); // URL = localhost:8000/admin/order/info/confirm/{0,2,3}
         Route::get('info/cancel/{order_id}', 'OrderController@cancelOrder'); // URL = localhost:8000/admin/order/info/cancel/{order_id}
 
-        Route::post('create', 'OrderController@create'); // URL = localhost:8000/admin/order/create
         Route::post('edit', 'OrderController@edit'); // URL = localhost:8000/admin/order/edit/{product_id}
         Route::get('delete/{product_id}', 'OrderController@delete'); // URL = localhost:8000/admin/order/delete/{product_id}
     });
